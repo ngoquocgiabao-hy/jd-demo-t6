@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jayden Hotel – Bảng điều hành cho chủ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#E4ECEA; --surface:#F7FAF9; --ink:#10303F; --muted:#557079; --line:#C9D7D5;
+  --night:#0F2A38; --night2:#173B4C; --lamp:#F4B942; --lampsoft:#F9D98A; --dark-window:#29495A;
+  --jade:#1E7A6C; --amber:#D9922B; --bar:#3E7F8F; --barwk:#E0A33A;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --bg:#081820; --surface:#0F2530; --ink:#E3EEEC; --muted:#9BB4BA; --line:#23414E;
+  --night:#06131A; --night2:#0D2430; --dark-window:#1E3A48; --bar:#5FA3B3; --barwk:#EDB14C; --jade:#4FB8A6;
+}}
+:root[data-theme="dark"]{
+  --bg:#081820; --surface:#0F2530; --ink:#E3EEEC; --muted:#9BB4BA; --line:#23414E;
+  --night:#06131A; --night2:#0D2430; --dark-window:#1E3A48; --bar:#5FA3B3; --barwk:#EDB14C; --jade:#4FB8A6;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Be Vietnam Pro",Arial,"Helvetica Neue",sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:540px;margin:0 auto;padding:16px 16px 48px}
+.num{font-variant-numeric:tabular-nums}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--lamp);outline-offset:2px}
+
+/* header */
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:4px 0 14px}
+.greet{font-size:14px;color:var(--muted)}
+.greet b{display:block;font-size:20px;color:var(--ink);font-weight:700;letter-spacing:-.01em}
+.hotels{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto}
+.hotel{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 14px;font-size:14px;white-space:nowrap;cursor:pointer}
+.hotel[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.hotel.off{color:var(--muted)}
+.note{font-size:13px;color:var(--muted)}
+
+/* building card */
+.tower{background:var(--night);color:#EAF2F1;border-radius:22px;padding:18px 16px 16px;position:relative;overflow:hidden}
+.tower h1{margin:0;font-size:15px;font-weight:500;color:#A9C3C9}
+.tower .big{font-size:40px;font-weight:700;line-height:1.05;letter-spacing:-.02em;margin:4px 0 2px}
+.tower .big small{font-size:18px;font-weight:500;color:#A9C3C9;letter-spacing:0}
+.tstats{display:flex;gap:18px;margin:10px 0 16px;flex-wrap:wrap}
+.tstats div{font-size:13px;color:#A9C3C9}
+.tstats b{display:block;font-size:17px;color:#fff;font-weight:600}
+.facade{background:var(--night2);border-radius:10px 10px 4px 4px;padding:10px 8px 0;position:relative}
+.roof{height:10px;margin:0 18px;background:var(--night2);border-radius:8px 8px 0 0;transform:translateY(1px)}
+.floor{display:grid;grid-template-columns:18px repeat(9,1fr);gap:5px;margin-bottom:6px;align-items:center}
+.fl{font-size:10px;color:#6E8C96;text-align:right;padding-right:2px}
+.win{aspect-ratio:3/4;border:0;border-radius:3px;background:var(--dark-window);cursor:pointer;padding:0;position:relative;transition:background .5s,box-shadow .5s}
+.win span{position:absolute;inset:auto 0 2px 0;font-size:8.5px;color:#7F9CA6;text-align:center;line-height:1}
+.win.on{background:linear-gradient(var(--lampsoft),var(--lamp));box-shadow:0 0 10px rgba(244,185,66,.45)}
+.win.on span{color:#6B4A0E}
+.win.nb{outline:1px dashed #6E8C96;outline-offset:-3px}
+.win.fresh{animation:lightup 1.2s ease-out}
+@keyframes lightup{0%{background:var(--dark-window);box-shadow:none}40%{box-shadow:0 0 22px rgba(244,185,66,.9)}}
+.win.sel{outline:2px solid #fff;outline-offset:1px}
+.ground{display:grid;grid-template-columns:18px repeat(9,1fr);gap:5px;padding-bottom:8px;align-items:end}
+.lobby{grid-column:3/11;height:26px;border-radius:3px 3px 0 0;background:#1F4455;font-size:10px;color:#8FB0B9;display:flex;align-items:center;justify-content:center}
+.legend{display:flex;gap:14px;font-size:12px;color:#A9C3C9;margin-top:12px;flex-wrap:wrap}
+.legend i{display:inline-block;width:10px;height:12px;border-radius:2px;vertical-align:-1px;margin-right:5px}
+.roominfo{min-height:20px;font-size:13px;color:#EAF2F1;margin-top:8px}
+.tower .fine{font-size:11.5px;color:#7F9CA6;margin-top:8px}
+
+/* day strip */
+.days{display:flex;gap:6px;overflow-x:auto;padding:12px 2px 4px;margin:0 -2px;scrollbar-width:none}
+.days::-webkit-scrollbar{display:none}
+.day{flex:0 0 auto;width:46px;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:6px 0;text-align:center;cursor:pointer}
+.day small{display:block;font-size:11px;color:var(--muted)}
+.day b{font-size:16px;font-weight:600}
+.day .occ{display:block;height:3px;margin:5px 8px 0;border-radius:2px;background:var(--line);overflow:hidden}
+.day .occ i{display:block;height:100%;background:var(--jade)}
+.day[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.day[aria-pressed="true"] small{color:var(--surface);opacity:.75}
+
+/* sections */
+section.blk{background:var(--surface);border-radius:18px;padding:18px 16px;margin-top:14px;border:1px solid var(--line)}
+h2{font-size:17px;margin:0 0 4px;font-weight:700;letter-spacing:-.01em}
+.sub{font-size:13.5px;color:var(--muted);margin:0 0 14px}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:14px 12px}
+.kpi b{display:block;font-size:24px;font-weight:700;letter-spacing:-.01em}
+.kpi span{font-size:13px;color:var(--muted)}
+.chart{width:100%;height:auto;display:block;touch-action:manipulation}
+.chart rect.b{cursor:pointer}
+.ckey{display:flex;gap:14px;font-size:12.5px;color:var(--muted);margin-top:6px}
+.ckey i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
+.compare div{border-radius:12px;padding:12px;background:var(--bg)}
+.compare b{display:block;font-size:26px;font-weight:700}
+.compare span{font-size:13px;color:var(--muted)}
+.insight{font-size:14px;margin:12px 0 0;padding-left:12px;border-left:3px solid var(--amber)}
+.stack{display:flex;height:14px;border-radius:7px;overflow:hidden;margin:4px 0 12px}
+.stack i{display:block;height:100%}
+.rows .r{display:grid;grid-template-columns:12px 1fr auto auto;gap:10px;align-items:baseline;padding:8px 0;border-top:1px solid var(--line);font-size:14.5px}
+.rows .r:first-child{border-top:0}
+.rows .dot{width:10px;height:10px;border-radius:3px;align-self:center}
+.rows .v{color:var(--muted);font-size:13px;text-align:right}
+.rows .p{font-weight:600;text-align:right;min-width:74px}
+
+/* form */
+.form{display:grid;gap:12px}
+.form label{font-size:13px;color:var(--muted);display:grid;gap:5px}
+.form select,.form input{font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px;width:100%}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:7px 12px;font-size:14px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--jade);border-color:var(--jade);color:#fff}
+.go{border:0;border-radius:12px;background:var(--ink);color:var(--surface);padding:13px 16px;font-weight:600;font-size:16px;cursor:pointer}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);opacity:0;background:var(--ink);color:var(--surface);padding:12px 16px;border-radius:12px;font-size:14px;max-width:min(92vw,440px);transition:.35s;pointer-events:none;z-index:9}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+footer{font-size:12.5px;color:var(--muted);margin-top:22px;line-height:1.6}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* 3D scene */
+.tower{padding-bottom:18px}
+.scene{position:relative;margin:4px -16px 0;padding:58px 0 46px;overflow:hidden;perspective:900px;perspective-origin:-10% -40%;touch-action:pan-y;cursor:grab;
+  background:
+   radial-gradient(1.2px 1.2px at 12% 14%,#CFE3EA 50%,transparent 51%),radial-gradient(1px 1px at 27% 31%,#9FC0CC 50%,transparent 51%),
+   radial-gradient(1.4px 1.4px at 44% 9%,#E8F3F6 50%,transparent 51%),radial-gradient(1px 1px at 63% 22%,#9FC0CC 50%,transparent 51%),
+   radial-gradient(1.2px 1.2px at 81% 12%,#CFE3EA 50%,transparent 51%),radial-gradient(1px 1px at 92% 34%,#9FC0CC 50%,transparent 51%),
+   radial-gradient(1px 1px at 6% 40%,#9FC0CC 50%,transparent 51%),radial-gradient(1.2px 1.2px at 72% 44%,#CFE3EA 50%,transparent 51%),
+   linear-gradient(#071720 0%,#0E2B3A 58%,#16425A 100%)}
+.scene:active{cursor:grabbing}
+.wheel{position:absolute;left:-30px;bottom:54px;width:46%;max-width:210px;opacity:.9;pointer-events:none}
+.wheel .spin{transform-origin:100px 100px;animation:wheel 70s linear infinite}
+@keyframes wheel{to{transform:rotate(360deg)}}
+.sea{position:absolute;left:0;right:0;bottom:58px;height:34px;background:
+  repeating-linear-gradient(180deg,rgba(244,185,66,.10) 0 1px,transparent 1px 7px),linear-gradient(#0C2633,#081B25)}
+.quay{position:absolute;left:0;right:0;bottom:0;height:58px;background:linear-gradient(#143646,#0F2A38 70%);box-shadow:0 -1px 0 #2C5B70}
+.bld{position:relative;width:64%;margin:0 0 0 37%;z-index:1;transform-origin:left center;transform-style:preserve-3d;transform:rotateY(20deg);animation:rise 1s cubic-bezier(.2,.8,.2,1)}
+@keyframes rise{from{translate:0 120px}}
+.bld .facade{position:relative;border-radius:0;padding:12px 7px 0;background:linear-gradient(90deg,#1F4A5E,#173B4C 60%,#143646);box-shadow:inset 0 0 0 1px #2A5568}
+.bld .side{position:absolute;left:0;top:0;bottom:0;width:86px;transform-origin:left center;transform:rotateY(90deg);
+  background:
+   repeating-linear-gradient(0deg,#2B6177 0 9px,transparent 9px 27px,#2B6177 27px 36px),
+   repeating-linear-gradient(90deg,#2B6177 0 7px,transparent 7px 25px,#2B6177 25px 29px),
+   linear-gradient(90deg,#143646 0 29px,#D9B761 29px 58px,#143646 58px);
+  box-shadow:inset 0 0 0 1px #3F8099}
+.bld .cap{position:absolute;left:0;top:0;width:100%;height:86px;transform-origin:top center;transform:rotateX(-90deg);background:linear-gradient(#3A7C95,#2B6177);box-shadow:inset 0 0 0 1px #4A8CA5}
+.bld .sign{position:absolute;right:8px;top:-19px;font-size:11px;font-weight:700;letter-spacing:.28em;color:#F9D98A;text-shadow:0 0 10px rgba(244,185,66,.8);transform:translateZ(1px)}
+.bld .floor,.bld .ground{gap:4px}
+.bld .floor.f7 .win{box-shadow:none}
+.bld .win{transition:background .55s ease-out var(--d,0ms),box-shadow .55s ease-out var(--d,0ms)}
+.win.fresh{animation:lightup 1.2s ease-out}
+.chart rect.b{transform-box:fill-box;transform-origin:50% 100%;animation:grow .7s cubic-bezier(.2,.8,.2,1) both}
+@keyframes grow{from{transform:scaleY(.02)}}
+.legend{margin-top:14px}
+/* map */
+.map{border-radius:14px;overflow:hidden;border:1px solid var(--line);background:var(--bg);aspect-ratio:4/3}
+.map iframe{width:100%;height:100%;border:0;display:block}
+.maplink{display:block;text-align:center;margin-top:12px;border-radius:12px;background:var(--ink);color:var(--surface);padding:12px 16px;font-weight:600;text-decoration:none}
+
+/* login */
+.login{min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:24px 16px}
+.lcard{width:100%;max-width:380px;background:var(--night);color:#EAF2F1;border-radius:22px;padding:28px 22px 24px}
+.lcard .brand{font-size:13px;color:#A9C3C9;letter-spacing:.04em;text-transform:uppercase}
+.lcard h1{font-size:24px;margin:6px 0 4px;font-weight:700;letter-spacing:-.01em}
+.lcard p{font-size:14px;color:#A9C3C9;margin:0 0 20px}
+.lcard label{display:grid;gap:6px;font-size:13px;color:#A9C3C9;margin-bottom:12px}
+.lcard input{font:inherit;font-size:16px;color:#fff;background:var(--night2);border:1px solid #2C5163;border-radius:12px;padding:12px 14px;width:100%}
+.lcard .go{width:100%;background:var(--lamp);color:#3A2A06;margin-top:4px}
+.lcard .go[disabled]{opacity:.6}
+.lerr{min-height:20px;font-size:13.5px;color:#F6C1A8;margin-top:10px}
+.lfine{font-size:12px;color:#7F9CA6;margin-top:14px;line-height:1.5}
+.out{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 14px;font-size:13.5px;cursor:pointer;white-space:nowrap}
+/* quick chips in tower */
+.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 0 16px}
+.quick button{border:0;border-radius:12px;background:var(--night2);color:#EAF2F1;padding:10px 8px;text-align:left;cursor:pointer}
+.quick b{display:block;font-size:20px;font-weight:700;line-height:1.1}
+.quick span{display:block;font-size:12px;line-height:1.3;margin-top:3px;color:#A9C3C9}
+/* guest list */
+.tabs{display:flex;gap:6px;margin:0 0 6px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{flex:1 1 0;text-align:center;border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:7px 12px;font-size:14px;cursor:pointer;white-space:nowrap}
+.tabs button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--surface)}
+.g{padding:12px 0;border-top:1px solid var(--line)}
+.g:first-child{border-top:0}
+.g .h{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.g .nm{font-weight:600;font-size:15.5px;overflow-wrap:anywhere}
+.g .rc{font-size:13.5px;color:var(--muted);white-space:nowrap}
+.g .meta{display:flex;gap:6px;flex-wrap:wrap;margin:5px 0 6px}
+.chip{font-size:11.5px;border-radius:999px;padding:2px 8px;background:var(--bg);color:var(--muted);border:1px solid var(--line)}
+.chip.new{background:var(--jade);border-color:var(--jade);color:#fff}
+.chip.outc{background:var(--amber);border-color:var(--amber);color:#2B1B02}
+.g .rn{font-size:13px;color:var(--muted);overflow-wrap:anywhere}
+.g .tm{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;margin-top:8px;align-items:end}
+.g .tm small{display:block;font-size:11.5px;color:var(--muted)}
+.g .tm b{font-size:14.5px;font-weight:600}
+.g .tm .mny{text-align:right}
+.empty{font-size:14px;color:var(--muted);padding:10px 0}
+</style>
+</head>
+<body>
+
+<div class="wrap" id="app">
+  <div class="top">
+    <div class="greet">Chào cô Cẩm<b>Tình hình khách sạn</b></div>
+  </div>
+  <div class="hotels" role="group" aria-label="Chọn khách sạn">
+    <button class="hotel" aria-pressed="true">Jayden, Bãi Cháy</button>
+    <button class="hotel off" id="milanoBtn" aria-pressed="false">Milano Legend</button>
+  </div>
+
+  <div class="days" id="days" role="group" aria-label="Chọn ngày" style="padding-top:0;margin-bottom:10px"></div>
+
+  <div class="tower" id="tower">
+    <h1 id="nightLabel">&nbsp;</h1>
+    <div class="big num"><span id="occNum">–</span> <small>/ 51 phòng có khách</small></div>
+    <div class="tstats">
+      <div>Công suất<b class="num" id="occPct">–</b></div>
+      <div>Doanh thu đêm<b class="num" id="dayRev">–</b></div>
+      <div>Giá phòng TB<b class="num" id="dayAdr">–</b></div>
+    </div>
+    <div class="quick" id="quick">
+      <button type="button" data-t="in"><b class="num" id="qIn">–</b><span>lượt đang ở</span></button>
+      <button type="button" data-t="arr"><b class="num" id="qArr">–</b><span>nhận hôm nay</span></button>
+      <button type="button" data-t="dep"><b class="num" id="qDep">–</b><span>trả hôm nay</span></button>
+    </div>
+    <div class="scene" id="scene" aria-label="Sơ đồ khách sạn, kéo ngang để xoay">
+      <svg class="wheel" viewBox="0 0 200 200" aria-hidden="true">
+        <g class="spin">
+          <circle cx="100" cy="100" r="88" fill="none" stroke="#7FB4C4" stroke-width="2.5"/>
+          <circle cx="100" cy="100" r="70" fill="none" stroke="#3E6E80" stroke-width="1"/>
+          <g id="spokes" stroke="#3E6E80" stroke-width="1"></g>
+          <g id="cabins"></g>
+        </g>
+        <circle cx="100" cy="100" r="6" fill="#F4B942"/>
+        <path d="M100 100 L62 200 M100 100 L138 200" stroke="#3E6E80" stroke-width="3" fill="none"/>
+      </svg>
+      <div class="sea"></div>
+      <div class="bld" id="bld">
+        <div class="side" aria-hidden="true"></div>
+        <div class="cap" aria-hidden="true"></div>
+        <div class="sign" aria-hidden="true">JAYDEN</div>
+        <div class="facade" id="facade"></div>
+      </div>
+      <div class="quay"></div>
+    </div>
+    <div class="legend"><span><i style="background:var(--lamp)"></i>Có khách</span><span><i style="background:var(--dark-window)"></i>Phòng trống</span><span>Chạm vào phòng để xem khách, kéo ngang để xoay</span></div>
+    <div class="roominfo" id="roomInfo" aria-live="polite"></div>
+  </div>
+
+  <section class="blk" id="guests">
+    <h2>Khách trong khách sạn</h2>
+    <p class="sub" id="gSub"></p>
+    <div class="tabs" id="gTabs" role="group" aria-label="Lọc danh sách khách">
+      <button type="button" data-t="in" aria-pressed="true">Đang ở</button>
+      <button type="button" data-t="arr" aria-pressed="false">Nhận</button>
+      <button type="button" data-t="dep" aria-pressed="false">Trả</button>
+    </div>
+    <div id="gList"></div>
+    <p class="note" style="margin:12px 0 0">Tên khách, số phòng bán, giá và ngày ở lấy từ báo cáo lễ tân tháng 6. Báo cáo này chưa ghi số phòng và giờ nhận trả, nên hai mục đó đang là minh họa. Khi nối với phần mềm lễ tân đang dùng, giờ nhận trả và số phòng hiện đúng theo thao tác của lễ tân.</p>
+  </section>
+
+  <section class="blk">
+    <h2>Tháng 6 đến hôm nay</h2>
+    <p class="sub" id="monthSub">29 đêm, lấy từ báo cáo doanh thu hằng ngày của lễ tân</p>
+    <div class="kpis">
+      <div class="kpi"><b class="num" id="mRev"></b><span>Tổng doanh thu</span></div>
+      <div class="kpi"><b class="num" id="mOcc"></b><span>Công suất trung bình</span></div>
+      <div class="kpi"><b class="num" id="mAdr"></b><span>Giá bán trung bình mỗi phòng</span></div>
+      <div class="kpi"><b class="num" id="mRevpar"></b><span>Doanh thu phòng tính trên mỗi phòng sẵn có</span></div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <h2>Doanh thu từng đêm</h2>
+    <p class="sub">Chạm vào một cột để xem đêm đó</p>
+    <svg class="chart" id="chart" viewBox="0 0 340 170" role="img" aria-label="Biểu đồ doanh thu theo đêm tháng 6"></svg>
+    <div class="ckey"><span><i style="background:var(--bar)"></i>Chủ nhật đến thứ 5</span><span><i style="background:var(--barwk)"></i>Đêm thứ 6, thứ 7</span></div>
+  </section>
+
+  <section class="blk">
+    <h2>Giữa tuần và cuối tuần</h2>
+    <p class="sub">Công suất phòng trung bình</p>
+    <div class="compare">
+      <div><b class="num" id="wdOcc"></b><span>Chủ nhật đến thứ 5</span></div>
+      <div><b class="num" id="weOcc"></b><span>Thứ 6 và thứ 7</span></div>
+    </div>
+    <p class="insight" id="wkInsight"></p>
+  </section>
+
+  <section class="blk">
+    <h2>Khách đến từ đâu</h2>
+    <p class="sub">Số đêm phòng và giá bán trung bình theo nguồn khách</p>
+    <div class="stack" id="segStack"></div>
+    <div class="rows" id="segRows"></div>
+    <p class="note" style="margin:10px 0 0">Tháng 6 được phân loại tự động theo tên lễ tân ghi. Khi dùng thật, nguồn khách lấy theo lựa chọn của lễ tân lúc nhận phòng nên số liệu sẽ chính xác.</p>
+    <p class="insight" id="natInsight"></p>
+  </section>
+
+  <section class="blk">
+    <h2>Tiền vào từ đâu</h2>
+    <p class="sub">Cơ cấu doanh thu và cách khách thanh toán trong tháng</p>
+    <div class="rows" id="mixRows"></div>
+  </section>
+
+  <section class="blk" id="entry">
+    <h2>Thử nhận một lượt khách</h2>
+    <p class="sub">Nhập ở đây, danh sách khách, sơ đồ và doanh thu phía trên cập nhật tức thì. Khi dùng thật, lễ tân vẫn thao tác trên phần mềm đang dùng, màn hình của cô tự cập nhật theo.</p>
+    <div class="form">
+      <label>Tên khách hoặc đoàn
+        <input id="fName" maxlength="40" placeholder="Ví dụ: Khách lẻ anh Minh">
+      </label>
+      <label id="fRoomLbl">Phòng trống
+        <select id="fRoom"></select>
+      </label>
+      <label>Nguồn khách
+        <div class="seg" id="fSeg" role="group">
+          <button type="button" data-v="le" aria-pressed="true">Khách lẻ</button>
+          <button type="button" data-v="daily" aria-pressed="false">Đại lý, lữ hành</button>
+          <button type="button" data-v="quen" aria-pressed="false">Khách quen</button>
+          <button type="button" data-v="ota" aria-pressed="false">Trip.com, OTA</button>
+        </div>
+      </label>
+      <div class="two">
+        <label>Giá một đêm (đồng)
+          <input id="fPrice" inputmode="numeric" value="1.100.000">
+        </label>
+        <label>Thanh toán
+          <select id="fPay"><option value="cash">Tiền mặt</option><option value="ck" selected>Chuyển khoản</option><option value="no">Công nợ</option></select>
+        </label>
+      </div>
+      <button class="go" id="fGo" type="button">Nhận phòng</button>
+    </div>
+  </section>
+
+  <section class="blk" id="place">
+    <h2>Vị trí khách sạn</h2>
+    <p class="sub">Jayden Hotel Halong, Bãi Cháy. 51 phòng nhìn ra biển, vòng quay Mặt Trời và đồi.</p>
+    <div class="map"><iframe title="Bản đồ Jayden Hotel Halong" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=Jayden%20Hotel%20Halong&ll=20.9562926,107.0541507&z=17&hl=vi&output=embed"></iframe></div>
+    <a class="maplink" href="https://www.google.com/maps/place/Jayden+Hotel+Halong/@20.9562926,107.0541507,17z/data=!3m1!4b1!4m9!3m8!1s0x314a585f8bb62e95:0x1b73db837872bba5!5m2!4m1!1i2!8m2!3d20.9562926!4d107.0541507!16s%2Fg%2F11llnkr889" target="_blank" rel="noopener">Mở trên Google Maps</a>
+  </section>
+
+  <footer>
+    Bản dùng thử do Ngô Quốc Bảo dựng từ báo cáo doanh thu hằng ngày tháng 6/2026 của Jayden. Khi triển khai thật: cô đăng nhập bằng tài khoản riêng, dữ liệu nằm trong tài khoản đứng tên cô, và Milano Legend được thêm vào cùng một màn hình.
+  </footer>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const PAYLOAD = {"days":[{"d":1,"rooms":32,"roomrev":21800000,"food":0,"drink":95000,"other":709000,"total":22604000,"cash":1095000,"ck":22217000,"segs":{"le":[1,1000000],"daily":[30,19800000],"quen":[1,1000000]},"wd":0,"bk":[{"n":"K.LẺ 406","s":"le","g":5,"r":1,"rev":1000000,"p":[[1,1000000]],"nat":"VN","du":false,"rn":[406],"ci":[1,"18:00"],"co":[2,"08:00"]},{"n":"DL STAR","s":"daily","g":45,"r":13,"rev":11800000,"p":[[1,650000],[4,950000],[4,1050000],[3,850000],[1,400000]],"nat":"VN","du":false,"rn":[201,202,203,204,205,206,207,208,209,301,302,303,304],"ci":[1,"16:00"],"co":[2,"12:00"]},{"n":"C.IN SỚM","s":"daily","g":0,"r":6,"rev":750000,"p":[[3,100000],[3,150000]],"nat":"","du":false,"rn":[408,409,501,502,503,504],"ci":[1,"14:30"],"co":[2,"11:15"]},{"n":"HOÀNG VĂN NGUYÊN","s":"quen","g":3,"r":1,"rev":1000000,"p":[[1,1000000]],"nat":"VN","du":false,"rn":[705],"ci":[1,"17:00"],"co":[2,"09:30"]},{"n":"HLG","s":"daily","g":23,"r":11,"rev":7250000,"p":[[6,600000],[1,850000],[4,650000]],"nat":"VN","du":false,"rn":[305,306,307,308,309,401,402,403,404,405,407],"ci":[1,"13:30"],"co":[3,"09:45"]}]},{"d":2,"rooms":27,"roomrev":19850000,"food":0,"drink":260000,"other":586000,"total":20696000,"cash":1460000,"ck":19976000,"segs":{"daily":[19,13550000],"le":[1,800000],"quen":[7,5500000]},"wd":1,"bk":[{"n":"HLG","s":"daily","g":23,"r":11,"rev":7250000,"p":[[6,600000],[1,850000],[4,650000]],"nat":"VN","du":false,"rn":[305,306,307,308,309,401,402,403,404,405,407],"ci":[1,"13:30"],"co":[3,"09:45"]},{"n":"K.NGHỈ TIÊNG","s":"le","g":2,"r":1,"rev":800000,"p":[[1,800000]],"nat":"VN","du":true,"rn":[704],"ci":[2,"14:15"],"co":[2,"16:45"]},{"n":"DL TVL","s":"daily","g":19,"r":7,"rev":5600000,"p":[[1,650000],[5,800000],[1,400000]],"nat":"VN","du":false,"rn":[201,202,203,204,205,206,207],"ci":[2,"13:45"],"co":[4,"10:30"]},{"n":"K.HỒNG CITRINE","s":"daily","g":2,"r":1,"rev":700000,"p":[[1,700000]],"nat":"VN","du":false,"rn":[601],"ci":[2,"18:15"],"co":[4,"07:45"]},{"n":"VŨ VĂN ĐẠI","s":"quen","g":3,"r":1,"rev":1100000,"p":[[1,1100000]],"nat":"VN","du":false,"rn":[602],"ci":[2,"14:30"],"co":[3,"12:00"]},{"n":"TRẦN T.MAI NHƯ_ KO ĂS","s":"quen","g":15,"r":6,"rev":4400000,"p":[[4,700000],[2,800000]],"nat":"VN","du":false,"rn":[208,209,301,302,303,304],"ci":[2,"13:45"],"co":[3,"09:15"]}]},{"d":3,"rooms":23,"roomrev":17000000,"food":3960000,"drink":0,"other":857800,"total":21817800,"cash":395000,"ck":21456800,"segs":{"daily":[11,8400000],"quen":[11,7800000],"le":[1,800000]},"wd":2,"bk":[{"n":"DL TVL","s":"daily","g":19,"r":7,"rev":5600000,"p":[[1,650000],[5,800000],[1,400000]],"nat":"VN","du":false,"rn":[201,202,203,204,205,206,207],"ci":[2,"13:45"],"co":[4,"10:30"]},{"n":"K.HỒNG CITRINE","s":"daily","g":2,"r":1,"rev":700000,"p":[[1,700000]],"nat":"VN","du":false,"rn":[601],"ci":[2,"18:15"],"co":[4,"07:45"]},{"n":"SHINE TV","s":"daily","g":2,"r":1,"rev":700000,"p":[[1,700000]],"nat":"VN","du":false,"rn":[605],"ci":[3,"14:45"],"co":[4,"08:00"]},{"n":"MS HƯƠNG HQ","s":"quen","g":2,"r":2,"rev":1400000,"p":[[2,700000]],"nat":"VN","du":false,"rn":[602,706],"ci":[3,"20:30"],"co":[4,"11:00"]},{"n":"LYLY T.VEL","s":"daily","g":4,"r":2,"rev":1400000,"p":[[2,700000]],"nat":"VN","du":false,"rn":[703,704],"ci":[3,"15:00"],"co":[4,"11:00"]},{"n":"K.LINH HỒNG","s":"quen","g":12,"r":6,"rev":4200000,"p":[[6,700000]],"nat":"VN","du":false,"rn":[208,209,301,302,303,304],"ci":[3,"16:00"],"co":[4,"11:45"]},{"n":"K.LẺ_ KO ĂS","s":"le","g":2,"r":1,"rev":800000,"p":[[1,800000]],"nat":"VN","du":false,"rn":[705],"ci":[3,"16:30"],"co":[4,"11:45"]},{"n":"K.C.HOA C.TY THÉP","s":"quen","g":7,"r":3,"rev":2200000,"p":[[2,800000],[1,600000]],"nat":"VN","du":false,"rn":[305,306,307],"ci":[3,"13:30"],"co":[4,"11:00"]}]},{"d":4,"rooms":15,"roomrev":12450000,"food":0,"drink":145000,"other":386000,"total":12981000,"cash":750000,"ck":15176200,"segs":{"daily":[8,7050000],"quen":[5,3700000],"noibo":[1,400000],"le":[1,1300000]},"wd":3,"bk":[{"n":"SHINE TV","s":"daily","g":2,"r":1,"rev":700000,"p":[[1,700000]],"nat":"VN","du":false,"rn":[701],"ci":[4,"15:00"],"co":[5,"11:15"]},{"n":"LYLY T.VEL( trả muộn)","s":"daily","g":0,"r":1,"rev":700000,"p":[[1,700000]],"nat":"VN","du":false,"rn":[703],"ci":[4,"20:45"],"co":[5,"14:00"]},{"n":"K.C.HOA C.TY THÉP","s":"quen","g":13,"r":5,"rev":3700000,"p":[[2,800000],[1,600000],[1,900000],[1,600000]],"nat":"VN","du":false,"rn":[201,202,203,204,205],"ci":[4,"14:15"],"co":[5,"08:45"]},{"n":"SHINE TV","s":"daily","g":2,"r":1,"rev":700000,"p":[[1,700000]],"nat":"VN","du":false,"rn":[702],"ci":[4,"15:00"],"co":[5,"11:15"]},{"n":"DL TRƯỜNG AN","s":"daily","g":18,"r":5,"rev":4950000,"p":[[4,1050000],[1,750000]],"nat":"VN","du":false,"rn":[206,207,208,209,301],"ci":[4,"13:45"],"co":[6,"10:00"]},{"n":"Nội Bộ","s":"noibo","g":2,"r":1,"rev":400000,"p":[[1,400000]],"nat":"","du":false,"rn":[101],"ci":[4,"18:45"],"co":[5,"10:00"]},{"n":"k.lẻ MR LUÂN","s":"le","g":4,"r":1,"rev":1300000,"p":[[1,1300000]],"nat":"VN","du":false,"rn":[706],"ci":[4,"14:00"],"co":[5,"07:30"]}]},{"d":5,"rooms":39,"roomrev":34000000,"food":0,"drink":95000,"other":0,"total":34095000,"cash":80000,"ck":34015000,"segs":{"daily":[26,21750000],"noibo":[2,3350000],"le":[3,2600000],"quen":[8,6300000]},"wd":4,"bk":[{"n":"DL TRƯỜNG AN","s":"daily","g":18,"r":5,"rev":4950000,"p":[[4,1050000],[1,750000]],"nat":"VN","du":false,"rn":[206,207,208,209,301],"ci":[4,"13:45"],"co":[6,"10:00"]},{"n":"Nội Bộ","s":"noibo","g":2,"r":1,"rev":400000,"p":[[1,400000]],"nat":"","du":false,"rn":[101],"ci":[5,"19:45"],"co":[6,"11:30"]},{"n":"K.LẺ-HÀ VĂN THẮNG","s":"le","g":4,"r":1,"rev":1600000,"p":[[1,1600000]],"nat":"VN","du":false,"rn":[704],"ci":[5,"19:45"],"co":[7,"11:00"]},{"n":"C.IN SỚM","s":"daily","g":0,"r":1,"rev":500000,"p":[[1,500000]],"nat":"","du":false,"rn":[702],"ci":[5,"19:45"],"co":[6,"12:00"]},{"n":"DL HẠ LONG XANH","s":"daily","g":36,"r":18,"rev":14400000,"p":[[18,800000]],"nat":"VN","du":false,"rn":[201,202,203,204,205,302,303,304,305,306,307,308,309,401,402,403,404,405],"ci":[5,"13:30"],"co":[7,"08:15"]},{"n":"p101","s":"noibo","g":2,"r":1,"rev":2950000,"p":[[1,600000]],"nat":"","du":false,"rn":[705],"ci":[5,"16:00"],"co":[7,"09:00"]},{"n":"K.MRS NGÂN","s":"quen","g":13,"r":7,"rev":6300000,"p":[[7,900000]],"nat":"VN","du":false,"rn":[406,407,408,409,501,502,503],"ci":[5,"14:30"],"co":[7,"07:30"]},{"n":"K.NGHỈ GIỜ","s":"le","g":0,"r":1,"rev":500000,"p":[[1,500000]],"nat":"VN","du":true,"rn":[602],"ci":[5,"13:00"],"co":[5,"15:30"]},{"n":"HÀ NGUYỄN DRAGON","s":"daily","g":5,"r":3,"rev":2400000,"p":[[3,800000]],"nat":"VN","du":false,"rn":[504,505,506],"ci":[5,"15:30"],"co":[6,"07:30"]},{"n":"K.C.CẨM- MS DƯƠNG","s":"quen","g":3,"r":1,"rev":0,"p":[[1,0]],"nat":"VN","du":false,"rn":[701],"ci":[5,"19:15"],"co":[7,"10:30"]}]},{"d":6,"rooms":51,"roomrev":50050000,"food":0,"drink":715000,"other":774000,"total":51539000,"cash":1173000,"ck":58190000,"segs":{"le":[2,2900000],"daily":[26,22500000],"noibo":[1,2950000],"quen":[22,21700000]},"wd":5,"bk":[{"n":"K.LẺ-HÀ VĂN THẮNG","s":"le","g":4,"r":1,"rev":1600000,"p":[[1,1600000]],"nat":"VN","du":false,"rn":[704],"ci":[5,"19:45"],"co":[7,"11:00"]},{"n":"DL HẠ LONG XANH","s":"daily","g":36,"r":18,"rev":14400000,"p":[[18,800000]],"nat":"VN","du":false,"rn":[201,202,203,204,205,302,303,304,305,306,307,308,309,401,402,403,404,405],"ci":[5,"13:30"],"co":[7,"08:15"]},{"n":"p101","s":"noibo","g":2,"r":1,"rev":2950000,"p":[[1,600000]],"nat":"","du":false,"rn":[705],"ci":[5,"16:00"],"co":[7,"09:00"]},{"n":"K.MRS NGÂN","s":"quen","g":13,"r":7,"rev":6300000,"p":[[7,900000]],"nat":"VN","du":false,"rn":[406,407,408,409,501,502,503],"ci":[5,"14:30"],"co":[7,"07:30"]},{"n":"K.C.CẨM- MS DƯƠNG","s":"quen","g":3,"r":1,"rev":0,"p":[[1,0]],"nat":"VN","du":false,"rn":[701],"ci":[5,"19:15"],"co":[7,"10:30"]},{"n":"MAI CHI","s":"quen","g":31,"r":13,"rev":14400000,"p":[[5,1150000],[5,900000],[3,1000000]],"nat":"VN","du":false,"rn":[206,207,208,209,301,504,505,506,507,508,509,601,602],"ci":[6,"14:45"],"co":[7,"10:00"]},{"n":"DL THANH LONG","s":"daily","g":23,"r":8,"rev":8100000,"p":[[2,850000],[1,1150000],[5,1050000]],"nat":"VN","du":false,"rn":[603,604,605,606,607,608,609,702],"ci":[6,"14:15"],"co":[7,"10:00"]},{"n":"K.LẺ","s":"le","g":2,"r":1,"rev":1300000,"p":[[1,1300000]],"nat":"VN","du":false,"rn":[706],"ci":[6,"14:15"],"co":[7,"11:00"]},{"n":"BÙI TRẦN THỊNH","s":"quen","g":1,"r":1,"rev":1000000,"p":[[1,1000000]],"nat":"VN","du":false,"rn":[703],"ci":[6,"17:30"],"co":[7,"11:00"]}]},{"d":7,"rooms":19,"roomrev":15500000,"food":0,"drink":190000,"other":0,"total":15690000,"cash":2960000,"ck":13680000,"segs":{"quen":[15,13150000],"daily":[3,1950000],"noibo":[1,400000],"le":[0,0]},"wd":6,"bk":[{"n":"K C.HOA - MS THÙY(KO AS","s":"quen","g":12,"r":3,"rev":3000000,"p":[[3,1000000]],"nat":"VN","du":false,"rn":[206,207,208],"ci":[7,"15:30"],"co":[9,"10:30"]},{"n":"PHÚC NH H.ĐĂNG","s":"quen","g":6,"r":3,"rev":2400000,"p":[[3,700000]],"nat":"VN","du":false,"rn":[209,301,302],"ci":[7,"14:45"],"co":[8,"08:30"]},{"n":"MR HUY","s":"quen","g":6,"r":3,"rev":3150000,"p":[[3,900000]],"nat":"VN","du":false,"rn":[303,304,305],"ci":[7,"15:15"],"co":[8,"10:15"]},{"n":"K.HỒNG CITRINE ( KO AS)","s":"daily","g":6,"r":3,"rev":1950000,"p":[[3,650000]],"nat":"VN","du":false,"rn":[306,307,308],"ci":[7,"15:45"],"co":[8,"09:00"]},{"n":"EM C.HOA ( KO AS)","s":"quen","g":3,"r":1,"rev":500000,"p":[[1,500000]],"nat":"VN","du":false,"rn":[704],"ci":[7,"17:00"],"co":[8,"09:45"]},{"n":"MRS NGÂN","s":"quen","g":10,"r":5,"rev":4100000,"p":[[5,800000]],"nat":"VN","du":false,"rn":[201,202,203,204,205],"ci":[7,"16:00"],"co":[9,"10:30"]},{"n":"NỘI BỘ","s":"noibo","g":2,"r":1,"rev":400000,"p":[[1,400000]],"nat":"VN","du":false,"rn":[101],"ci":[7,"14:00"],"co":[8,"11:30"]}]},{"d":8,"rooms":28,"roomrev":23200000,"food":0,"drink":0,"other":170000,"total":23370000,"cash":4060000,"ck":16160000,"segs":{"quen":[20,16950000],"noibo":[1,400000],"le":[1,550000],"daily":[6,5300000]},"wd":0,"bk":[{"n":"K C.HOA - MS THÙY(KO AS","s":"quen","g":12,"r":3,"rev":3000000,"p":[[3,1000000]],"nat":"VN","du":false,"rn":[206,207,208],"ci":[7,"15:30"],"co":[9,"10:30"]},{"n":"MRS NGÂN","s":"quen","g":10,"r":5,"rev":4100000,"p":[[5,800000]],"nat":"VN","du":false,"rn":[201,202,203,204,205],"ci":[7,"16:00"],"co":[9,"10:30"]},{"n":"NỘI BỘ","s":"noibo","g":2,"r":1,"rev":400000,"p":[[1,400000]],"nat":"VN","du":false,"rn":[101],"ci":[8,"18:30"],"co":[9,"12:00"]},{"n":"K.NGHỈ TIẾNG","s":"le","g":1,"r":1,"rev":550000,"p":[[1,550000]],"nat":"VN","du":true,"rn":[701],"ci":[8,"13:00"],"co":[8,"16:00"]},{"n":"SHINE TV_ĐỨC MẠNH","s":"daily","g":2,"r":1,"rev":700000,"p":[[1,700000]],"nat":"VN","du":false,"rn":[703],"ci":[8,"14:45"],"co":[10,"10:45"]},{"n":"SHINE TV_VIỆT ANH","s":"daily","g":2,"r":1,"rev":700000,"p":[[1,700000]],"nat":"VN","du":false,"rn":[705],"ci":[8,"15:45"],"co":[10,"11:30"]},{"n":"MR ĐƯỢC NH ĐCV","s":"quen","g":10,"r":5,"rev":3950000,"p":[[5,600000]],"nat":"VN","du":false,"rn":[307,308,309,401,402],"ci":[8,"16:00"],"co":[10,"09:00"]},{"n":"HLG TOURS","s":"daily","g":12,"r":4,"rev":3700000,"p":[[3,950000],[1,850000]],"nat":"VN","du":false,"rn":[403,404,405,406],"ci":[8,"16:00"],"co":[9,"10:45"]},{"n":"MR PHÚC -NH HĐĂNG","s":"quen","g":14,"r":7,"rev":5900000,"p":[[7,700000]],"nat":"VN","du":false,"rn":[209,301,302,303,304,305,306],"ci":[8,"14:00"],"co":[10,"07:45"]}]},{"d":9,"rooms":23,"roomrev":17950000,"food":0,"drink":0,"other":810000,"total":18760000,"cash":7440000,"ck":14795000,"segs":{"daily":[2,1400000],"quen":[18,14450000],"le":[3,2100000]},"wd":1,"bk":[{"n":"SHINE TV_ĐỨC MẠNH","s":"daily","g":2,"r":1,"rev":700000,"p":[[1,700000]],"nat":"VN","du":false,"rn":[703],"ci":[8,"14:45"],"co":[10,"10:45"]},{"n":"SHINE TV_VIỆT ANH","s":"daily","g":2,"r":1,"rev":700000,"p":[[1,700000]],"nat":"VN","du":false,"rn":[705],"ci":[8,"15:45"],"co":[10,"11:30"]},{"n":"MR ĐƯỢC NH ĐCV","s":"quen","g":10,"r":5,"rev":3950000,"p":[[5,600000]],"nat":"VN","du":false,"rn":[307,308,309,401,402],"ci":[8,"16:00"],"co":[10,"09:00"]},{"n":"MR PHÚC -NH HĐĂNG","s":"quen","g":14,"r":7,"rev":5900000,"p":[[7,700000]],"nat":"VN","du":false,"rn":[209,301,302,303,304,305,306],"ci":[8,"14:00"],"co":[10,"07:45"]},{"n":"MRS NGÂN","s":"quen","g":6,"r":3,"rev":2500000,"p":[[2,700000],[1,800000]],"nat":"VN","du":false,"rn":[201,202,203],"ci":[9,"13:45"],"co":[11,"08:45"]},{"n":"K. MRS NGA KT","s":"quen","g":6,"r":3,"rev":2100000,"p":[[3,700000]],"nat":"VN","du":false,"rn":[204,205,206],"ci":[9,"15:15"],"co":[11,"09:30"]},{"n":"K.LẺ ĐỖ THỊ MAI( KO Ă.S)","s":"le","g":6,"r":3,"rev":2100000,"p":[[3,700000]],"nat":"VN","du":false,"rn":[207,208,403],"ci":[9,"14:30"],"co":[10,"08:15"]}]},{"d":10,"rooms":15,"roomrev":12450000,"food":0,"drink":55000,"other":0,"total":12505000,"cash":2155000,"ck":10750000,"segs":{"quen":[7,5300000],"le":[2,2300000],"daily":[6,4850000]},"wd":2,"bk":[{"n":"MRS NGÂN","s":"quen","g":6,"r":3,"rev":2500000,"p":[[2,700000],[1,800000]],"nat":"VN","du":false,"rn":[201,202,203],"ci":[9,"13:45"],"co":[11,"08:45"]},{"n":"K. MRS NGA KT","s":"quen","g":6,"r":3,"rev":2100000,"p":[[3,700000]],"nat":"VN","du":false,"rn":[204,205,206],"ci":[9,"15:15"],"co":[11,"09:30"]},{"n":"K.NGHỈ TIẾNG","s":"le","g":0,"r":1,"rev":800000,"p":[[1,800000]],"nat":"VN","du":true,"rn":[704],"ci":[10,"13:45"],"co":[10,"16:45"]},{"n":"K.LINH HỒNG","s":"quen","g":2,"r":1,"rev":700000,"p":[[1,700000]],"nat":"VN","du":false,"rn":[605],"ci":[10,"20:30"],"co":[11,"11:30"]},{"n":"SHINE TV","s":"daily","g":3,"r":1,"rev":1150000,"p":[[1,1050000]],"nat":"VN","du":false,"rn":[701],"ci":[10,"20:00"],"co":[11,"07:45"]},{"n":"K.C.HOA-DL HẠ LONG XANH","s":"daily","g":6,"r":2,"rev":1400000,"p":[[2,700000]],"nat":"VN","du":false,"rn":[601,706],"ci":[10,"18:15"],"co":[13,"10:30"]},{"n":"SHINETV- NG.THỊ TƯƠI","s":"daily","g":2,"r":1,"rev":700000,"p":[[1,700000]],"nat":"VN","du":false,"rn":[603],"ci":[10,"15:15"],"co":[12,"08:45"]},{"n":"K.LẺ _MS TÂM","s":"le","g":5,"r":1,"rev":1500000,"p":[[1,1500000]],"nat":"VN","du":false,"rn":[602],"ci":[10,"15:30"],"co":[12,"10:45"]},{"n":"K.C.HOA-DL AN VIỆT","s":"daily","g":5,"r":2,"rev":1600000,"p":[[1,650000],[1,950000]],"nat":"VN","du":false,"rn":[702,703],"ci":[10,"15:15"],"co":[11,"08:15"]}]},{"d":11,"rooms":18,"roomrev":17250000,"food":0,"drink":190000,"other":141000,"total":17581000,"cash":3450000,"ck":14272000,"segs":{"daily":[6,4650000],"le":[6,7600000],"quen":[6,5000000]},"wd":3,"bk":[{"n":"SHINE TV","s":"daily","g":3,"r":1,"rev":1150000,"p":[[1,1050000]],"nat":"VN","du":false,"rn":[501],"ci":[11,"18:15"],"co":[12,"10:15"]},{"n":"K.C.HOA-DL HẠ LONG XANH","s":"daily","g":6,"r":2,"rev":1400000,"p":[[2,700000]],"nat":"VN","du":false,"rn":[601,706],"ci":[10,"18:15"],"co":[13,"10:30"]},{"n":"SHINETV- NG.THỊ TƯƠI","s":"daily","g":2,"r":1,"rev":700000,"p":[[1,700000]],"nat":"VN","du":false,"rn":[603],"ci":[10,"15:15"],"co":[12,"08:45"]},{"n":"K.LẺ _MS TÂM","s":"le","g":5,"r":1,"rev":1500000,"p":[[1,1500000]],"nat":"VN","du":false,"rn":[602],"ci":[10,"15:30"],"co":[12,"10:45"]},{"n":"K.YẾN CTV","s":"quen","g":4,"r":2,"rev":1400000,"p":[[2,700000]],"nat":"VN","du":false,"rn":[701,702],"ci":[11,"18:15"],"co":[12,"10:15"]},{"n":"K.LINH HỒNG","s":"quen","g":10,"r":5,"rev":4100000,"p":[[5,700000]],"nat":"VN","du":false,"rn":[201,202,203,204,205],"ci":[11,"14:15"],"co":[13,"07:45"]},{"n":"K.LẺ","s":"le","g":5,"r":2,"rev":2700000,"p":[[1,1200000],[1,1500000]],"nat":"VN","du":false,"rn":[703,704],"ci":[11,"20:15"],"co":[12,"08:45"]},{"n":"MS PHƯƠNG - CTY TNHHVN CREATE MEDIC","s":"quen","g":1,"r":1,"rev":900000,"p":[[1,900000]],"nat":"VN","du":false,"rn":[607],"ci":[11,"16:45"],"co":[12,"11:15"]},{"n":"K.LẺ-MS THUYÊN","s":"le","g":4,"r":2,"rev":2400000,"p":[[2,1200000]],"nat":"VN","du":false,"rn":[604,605],"ci":[11,"15:30"],"co":[12,"08:00"]},{"n":"K.LẺ TQ","s":"le","g":1,"r":1,"rev":1000000,"p":[[1,1000000]],"nat":"TQ","du":false,"rn":[502],"ci":[11,"20:15"],"co":[12,"08:00"]}]},{"d":12,"rooms":45,"roomrev":40810000,"food":0,"drink":295000,"other":2190000,"total":43295000,"cash":2815000,"ck":43589000,"segs":{"daily":[31,29050000],"quen":[5,4600000],"le":[7,6660000],"noibo":[2,500000]},"wd":4,"bk":[{"n":"K.C.HOA-DL HẠ LONG XANH","s":"daily","g":6,"r":2,"rev":1400000,"p":[[2,700000]],"nat":"VN","du":false,"rn":[601,706],"ci":[10,"18:15"],"co":[13,"10:30"]},{"n":"K.LINH HỒNG","s":"quen","g":10,"r":5,"rev":4600000,"p":[[5,800000]],"nat":"VN","du":false,"rn":[201,202,203,204,205],"ci":[11,"14:15"],"co":[13,"07:45"]},{"n":"K.LẺ trả muộn * 30%","s":"le","g":5,"r":2,"rev":810000,"p":[[1,360000],[1,450000]],"nat":"VN","du":false,"rn":[703,704],"ci":[12,"14:30"],"co":[13,"14:00"]},{"n":"SHINE TV","s":"daily","g":3,"r":1,"rev":1250000,"p":[[1,1250000]],"nat":"VN","du":false,"rn":[702],"ci":[12,"17:15"],"co":[13,"11:00"]},{"n":"DL TƯỜNG ANH","s":"daily","g":15,"r":7,"rev":6950000,"p":[[6,900000],[1,1150000]],"nat":"VN","du":false,"rn":[409,501,502,503,504,505,506],"ci":[12,"15:15"],"co":[13,"11:45"]},{"n":"NB","s":"noibo","g":2,"r":1,"rev":500000,"p":[[1,500000]],"nat":"","du":false,"rn":[101],"ci":[12,"15:00"],"co":[13,"09:45"]},{"n":"DL KÌ NGHỈ VÀNG","s":"daily","g":50,"r":21,"rev":19450000,"p":[[13,850000],[8,1050000]],"nat":"VN","du":false,"rn":[206,207,208,209,301,302,303,304,305,306,307,308,309,401,402,403,404,405,406,407,408],"ci":[12,"15:45"],"co":[13,"11:30"]},{"n":"NB","s":"noibo","g":3,"r":1,"rev":0,"p":[[1,0]],"nat":"","du":false,"rn":[608],"ci":[12,"15:00"],"co":[13,"09:45"]},{"n":"K.LẺ VŨ THỊ THẮM","s":"le","g":3,"r":2,"rev":2400000,"p":[[2,1200000]],"nat":"VN","du":false,"rn":[604,605],"ci":[12,"16:00"],"co":[13,"08:45"]},{"n":"K.LẺ Lý VĂN THI","s":"le","g":4,"r":1,"rev":1200000,"p":[[1,1200000]],"nat":"VN","du":false,"rn":[609],"ci":[12,"16:45"],"co":[13,"10:30"]},{"n":"K.LẺ NG.T.MAI PHƯƠNG","s":"le","g":5,"r":2,"rev":2250000,"p":[[1,1350000],[1,900000]],"nat":"VN","du":false,"rn":[603,606],"ci":[12,"20:30"],"co":[13,"09:30"]}]},{"d":13,"rooms":52,"roomrev":57050000,"food":0,"drink":130000,"other":0,"total":57180000,"cash":14745000,"ck":46685000,"segs":{"daily":[2,2800000],"quen":[45,47350000],"le":[4,5900000],"noibo":[1,1000000]},"wd":5,"bk":[{"n":"SHINE TVEL","s":"daily","g":6,"r":2,"rev":2800000,"p":[[2,1250000]],"nat":"VN","du":false,"rn":[705,706],"ci":[13,"14:45"],"co":[15,"09:45"]},{"n":"MR CHIẾN","s":"quen","g":8,"r":3,"rev":3500000,"p":[[2,1200000],[1,1100000]],"nat":"VN","du":false,"rn":[604,605,606],"ci":[13,"14:15"],"co":[14,"07:45"]},{"n":"K.LẺ","s":"le","g":5,"r":1,"rev":1700000,"p":[[1,1700000]],"nat":"VN","du":false,"rn":[609],"ci":[13,"20:15"],"co":[14,"07:30"]},{"n":"K.LẺ MS PHƯƠNG","s":"le","g":2,"r":1,"rev":1400000,"p":[[1,1400000]],"nat":"VN","du":false,"rn":[701],"ci":[13,"15:30"],"co":[14,"11:30"]},{"n":"K.C.HOA","s":"quen","g":3,"r":1,"rev":1150000,"p":[[1,1150000]],"nat":"VN","du":false,"rn":[704],"ci":[13,"16:15"],"co":[14,"09:45"]},{"n":"K.LẺ H.TRANG","s":"le","g":3,"r":1,"rev":1500000,"p":[[1,1500000]],"nat":"VN","du":false,"rn":[608],"ci":[13,"16:15"],"co":[14,"12:00"]},{"n":"K.LẺ M.HẰNG","s":"le","g":2,"r":1,"rev":1300000,"p":[[1,1300000]],"nat":"VN","du":false,"rn":[607],"ci":[13,"18:00"],"co":[14,"11:00"]},{"n":"MR ĐƯỢC _NG.HÙNG","s":"quen","g":37,"r":14,"rev":15150000,"p":[[3,900000],[2,1000000],[8,1150000],[1,1250000]],"nat":"VN","du":false,"rn":[201,202,203,204,205,206,207,208,209,301,302,303,304,305],"ci":[13,"15:45"],"co":[14,"10:30"]},{"n":"p101","s":"noibo","g":2,"r":1,"rev":1000000,"p":[[1,1000000]],"nat":"","du":false,"rn":[101],"ci":[13,"17:00"],"co":[14,"11:00"]},{"n":"MR ĐƯỢC - m Chất","s":"quen","g":24,"r":12,"rev":12450000,"p":[[12,1000000]],"nat":"VN","du":false,"rn":[306,307,308,309,401,402,403,404,405,406,407,408],"ci":[13,"13:45"],"co":[14,"10:30"]},{"n":"MR ĐƯỢC - TRẦN HIẾU","s":"quen","g":8,"r":4,"rev":4000000,"p":[[4,1000000]],"nat":"","du":false,"rn":[505,506,507,508],"ci":[13,"13:45"],"co":[14,"08:00"]},{"n":"MR ĐƯỢC - TRẦN HẰNG","s":"quen","g":10,"r":5,"rev":5000000,"p":[[5,1000000]],"nat":"","du":false,"rn":[409,501,502,503,504],"ci":[13,"14:30"],"co":[14,"10:45"]},{"n":"MR ĐƯỢC","s":"quen","g":10,"r":4,"rev":4100000,"p":[[2,900000],[2,1150000]],"nat":"","du":false,"rn":[509,601,602,603],"ci":[13,"14:30"],"co":[14,"07:30"]},{"n":"MR ĐƯỢC","s":"quen","g":4,"r":2,"rev":2000000,"p":[[2,1000000]],"nat":"","du":false,"rn":[702,703],"ci":[13,"18:30"],"co":[14,"07:30"]}]},{"d":14,"rooms":51,"roomrev":37500000,"food":0,"drink":60000,"other":1000000,"total":38560000,"cash":7410000,"ck":31150000,"segs":{"daily":[36,26750000],"quen":[14,10750000],"noibo":[1,0]},"wd":6,"bk":[{"n":"SHINE TVEL","s":"daily","g":6,"r":2,"rev":2400000,"p":[[2,1050000]],"nat":"VN","du":false,"rn":[705,706],"ci":[13,"14:45"],"co":[15,"09:45"]},{"n":"MR ĐƯỢC _NG.HÙNG","s":"quen","g":25,"r":9,"rev":6450000,"p":[[2,600000],[7,750000]],"nat":"VN","du":false,"rn":[509,601,602,603,604,605,606,607,608],"ci":[14,"13:30"],"co":[15,"09:00"]},{"n":"MR ĐƯỢC - p306,308","s":"quen","g":4,"r":2,"rev":2000000,"p":[[2,1000000]],"nat":"","du":false,"rn":[306,308],"ci":[14,"21:00"],"co":[15,"11:30"]},{"n":"HỒNG CITRINE","s":"daily","g":66,"r":33,"rev":23650000,"p":[[33,650000]],"nat":"VN","du":false,"rn":[201,202,203,204,205,206,207,208,209,301,302,303,304,305,307,309,401,402,403,404,405,406,407,408,409,501,502,503,504,505,506,507,508],"ci":[14,"16:00"],"co":[15,"10:45"]},{"n":"nb","s":"noibo","g":3,"r":1,"rev":0,"p":[[1,0]],"nat":"","du":false,"rn":[101],"ci":[14,"18:00"],"co":[15,"08:45"]},{"n":"K.CHÚ XUÂN ANH","s":"quen","g":4,"r":2,"rev":1400000,"p":[[2,700000]],"nat":"VN","du":false,"rn":[703,704],"ci":[14,"20:00"],"co":[15,"10:15"]},{"n":"NGUYỄN HỮU TRỌNG","s":"quen","g":2,"r":1,"rev":900000,"p":[[1,900000]],"nat":"VN","du":false,"rn":[609],"ci":[14,"18:30"],"co":[15,"09:30"]},{"n":"SHINE TVEL_MS LY","s":"daily","g":2,"r":1,"rev":700000,"p":[[1,700000]],"nat":"VN","du":false,"rn":[701],"ci":[14,"20:30"],"co":[16,"09:45"]}]},{"d":15,"rooms":49,"roomrev":36800000,"food":0,"drink":1345000,"other":0,"total":38145000,"cash":100000,"ck":38045000,"segs":{"daily":[45,35050000],"noibo":[2,0],"quen":[2,1750000]},"wd":0,"bk":[{"n":"HỒNG CITRINE","s":"daily","g":66,"r":31,"rev":22350000,"p":[[31,650000]],"nat":"VN","du":false,"rn":[201,202,203,204,205,206,207,208,209,301,302,303,304,305,306,307,308,309,401,402,403,404,405,406,407,408,409,501,502,503,504],"ci":[15,"13:30"],"co":[16,"10:30"]},{"n":"nb","s":"noibo","g":3,"r":2,"rev":0,"p":[[2,0]],"nat":"","du":false,"rn":[101,702],"ci":[15,"14:15"],"co":[16,"09:30"]},{"n":"SHINE TVEL_MS LY","s":"daily","g":2,"r":1,"rev":700000,"p":[[1,700000]],"nat":"VN","du":false,"rn":[701],"ci":[14,"20:30"],"co":[16,"09:45"]},{"n":"DL THUẬN AN","s":"daily","g":34,"r":12,"rev":11300000,"p":[[8,950000],[2,1050000],[2,800000]],"nat":"VN","du":false,"rn":[505,506,507,508,509,601,602,603,604,605,606,607],"ci":[15,"15:15"],"co":[17,"08:45"]},{"n":"SHINE TVEL_MS VY","s":"daily","g":2,"r":1,"rev":700000,"p":[[1,700000]],"nat":"VN","du":false,"rn":[704],"ci":[15,"18:45"],"co":[16,"09:00"]},{"n":"K.C.HOA-MR TIẾN","s":"quen","g":4,"r":2,"rev":1750000,"p":[[2,800000]],"nat":"VN","du":false,"rn":[608,609],"ci":[15,"18:15"],"co":[16,"10:15"]}]},{"d":16,"rooms":34,"roomrev":30600000,"food":0,"drink":550000,"other":0,"total":31150000,"cash":1207000,"ck":28353000,"segs":{"daily":[13,12350000],"le":[3,3000000],"quen":[18,15250000]},"wd":1,"bk":[{"n":"DL THUẬN AN","s":"daily","g":34,"r":12,"rev":11300000,"p":[[8,950000],[2,1050000],[2,800000]],"nat":"VN","du":false,"rn":[505,506,507,508,509,601,602,603,604,605,606,607],"ci":[15,"15:15"],"co":[17,"08:45"]},{"n":"SHINE TV","s":"daily","g":3,"r":1,"rev":1050000,"p":[[1,1050000]],"nat":"VN","du":false,"rn":[701],"ci":[16,"18:15"],"co":[17,"07:30"]},{"n":"K.LẺ","s":"le","g":2,"r":1,"rev":1000000,"p":[[1,1000000]],"nat":"VN","du":false,"rn":[702],"ci":[16,"15:30"],"co":[17,"11:45"]},{"n":"K.LẺ NG.ĐỨC THIỆN","s":"le","g":2,"r":1,"rev":1000000,"p":[[1,1000000]],"nat":"VN","du":false,"rn":[706],"ci":[16,"14:15"],"co":[17,"10:45"]},{"n":"NGÔ TRÀ MY","s":"quen","g":24,"r":7,"rev":6200000,"p":[[5,1000000],[1,700000],[1,400000]],"nat":"VN","du":false,"rn":[201,202,203,204,205,206,207],"ci":[16,"15:15"],"co":[17,"08:30"]},{"n":"MR ĐƯỢC NHĐCV","s":"quen","g":8,"r":4,"rev":2950000,"p":[[4,600000]],"nat":"VN","du":false,"rn":[305,306,307,308],"ci":[16,"14:00"],"co":[17,"11:00"]},{"n":"MS HIỀN","s":"quen","g":14,"r":6,"rev":5400000,"p":[[6,900000]],"nat":"VN","du":false,"rn":[208,209,301,302,303,304],"ci":[16,"15:00"],"co":[17,"08:00"]},{"n":"K.LẺ MS GIANG","s":"le","g":2,"r":1,"rev":1000000,"p":[[1,1000000]],"nat":"VN","du":false,"rn":[608],"ci":[16,"19:00"],"co":[19,"10:30"]},{"n":"MR HÙNG","s":"quen","g":1,"r":1,"rev":700000,"p":[[1,700000]],"nat":"VN","du":false,"rn":[704],"ci":[16,"19:45"],"co":[17,"09:45"]}]},{"d":17,"rooms":49,"roomrev":36400000,"food":0,"drink":359000,"other":0,"total":36759000,"cash":2608000,"ck":34490000,"segs":{"daily":[45,32400000],"le":[4,4000000]},"wd":2,"bk":[{"n":"SHINE TV","s":"daily","g":3,"r":1,"rev":1050000,"p":[[1,1050000]],"nat":"VN","du":false,"rn":[701],"ci":[17,"18:00"],"co":[18,"09:45"]},{"n":"K.LẺ MS GIANG","s":"le","g":2,"r":1,"rev":1000000,"p":[[1,1000000]],"nat":"VN","du":false,"rn":[608],"ci":[16,"19:00"],"co":[19,"10:30"]},{"n":"K.NGHỈ TIẾNG","s":"le","g":0,"r":1,"rev":1000000,"p":[[1,1000000]],"nat":"VN","du":true,"rn":[702],"ci":[17,"10:00"],"co":[17,"13:00"]},{"n":"DL HẢI DƯƠNG","s":"daily","g":39,"r":20,"rev":13300000,"p":[[19,700000],[1,0]],"nat":"VN","du":false,"rn":[201,202,203,204,205,206,207,208,209,301,302,303,304,305,306,307,308,309,401,402],"ci":[17,"13:30"],"co":[19,"10:15"]},{"n":"DL TƯỜNG ANH","s":"daily","g":21,"r":6,"rev":5750000,"p":[[4,1100000],[1,950000],[1,400000]],"nat":"VN","du":false,"rn":[603,604,605,606,607,609],"ci":[17,"14:00"],"co":[19,"10:30"]},{"n":"DL TASSCO","s":"daily","g":36,"r":18,"rev":12300000,"p":[[17,700000],[1,0]],"nat":"VN","du":false,"rn":[403,404,405,406,407,408,409,501,502,503,504,505,506,507,508,509,601,602],"ci":[17,"14:15"],"co":[18,"12:00"]},{"n":"K.LẺ NGUYỄN HỮU THIỀU","s":"le","g":1,"r":1,"rev":1000000,"p":[[1,1000000]],"nat":"VN","du":false,"rn":[705],"ci":[17,"15:30"],"co":[18,"12:00"]},{"n":"K.LẺ PHẠM VĂN DŨNG","s":"le","g":4,"r":1,"rev":1000000,"p":[[1,1000000]],"nat":"VN","du":false,"rn":[704],"ci":[17,"19:30"],"co":[18,"11:45"]}]},{"d":18,"rooms":38,"roomrev":31150000,"food":0,"drink":30000,"other":184000,"total":31364000,"cash":72000,"ck":31376000,"segs":{"le":[2,2000000],"daily":[29,21900000],"quen":[7,7250000]},"wd":3,"bk":[{"n":"K.LẺ MS GIANG","s":"le","g":2,"r":1,"rev":1000000,"p":[[1,1000000]],"nat":"VN","du":false,"rn":[608],"ci":[16,"19:00"],"co":[19,"10:30"]},{"n":"DL HẢI DƯƠNG","s":"daily","g":39,"r":20,"rev":13300000,"p":[[19,700000],[1,0]],"nat":"VN","du":false,"rn":[201,202,203,204,205,206,207,208,209,301,302,303,304,305,306,307,308,309,401,402],"ci":[17,"13:30"],"co":[19,"10:15"]},{"n":"DL TƯỜNG ANH","s":"daily","g":21,"r":6,"rev":5750000,"p":[[4,1100000],[1,950000],[1,400000]],"nat":"VN","du":false,"rn":[603,604,605,606,607,609],"ci":[17,"14:00"],"co":[19,"10:30"]},{"n":"K.LINH HỒNG","s":"quen","g":2,"r":1,"rev":650000,"p":[[1,650000]],"nat":"VN","du":false,"rn":[701],"ci":[18,"20:30"],"co":[20,"07:45"]},{"n":"MR BÀNG","s":"quen","g":18,"r":6,"rev":6600000,"p":[[6,1100000]],"nat":"VN","du":false,"rn":[403,404,405,406,407,408],"ci":[18,"14:45"],"co":[20,"09:30"]},{"n":"K.LẺ NG.CÔNG TUẤN","s":"le","g":4,"r":1,"rev":1000000,"p":[[1,1000000]],"nat":"VN","du":false,"rn":[702],"ci":[18,"17:15"],"co":[19,"11:15"]},{"n":"DL VIỆT LINH","s":"daily","g":12,"r":3,"rev":2850000,"p":[[3,950000]],"nat":"VN","du":false,"rn":[409,501,502],"ci":[18,"15:45"],"co":[19,"10:45"]}]},{"d":19,"rooms":31,"roomrev":32050000,"food":0,"drink":626000,"other":0,"total":32676000,"cash":5810000,"ck":27482000,"segs":{"quen":[22,23200000],"daily":[8,7650000],"le":[1,1200000]},"wd":4,"bk":[{"n":"K.LINH HỒNG","s":"quen","g":2,"r":1,"rev":800000,"p":[[1,800000]],"nat":"VN","du":false,"rn":[701],"ci":[18,"20:30"],"co":[20,"07:45"]},{"n":"MR BÀNG","s":"quen","g":18,"r":6,"rev":6600000,"p":[[6,1100000]],"nat":"VN","du":false,"rn":[403,404,405,406,407,408],"ci":[18,"14:45"],"co":[20,"09:30"]},{"n":"HLG TOURS","s":"daily","g":13,"r":6,"rev":5500000,"p":[[5,850000],[1,1050000]],"nat":"VN","du":false,"rn":[201,202,203,204,205,206],"ci":[19,"14:45"],"co":[21,"11:00"]},{"n":"SHINE TV","s":"daily","g":5,"r":2,"rev":2150000,"p":[[1,1000000],[1,1150000]],"nat":"VN","du":false,"rn":[601,602],"ci":[19,"20:15"],"co":[20,"10:00"]},{"n":"MR ĐƯỢC ĐCV_MS TRANG","s":"quen","g":6,"r":2,"rev":2500000,"p":[[2,1250000]],"nat":"VN","du":false,"rn":[704,705],"ci":[19,"15:30"],"co":[21,"12:00"]},{"n":"KHÁCH LẺ","s":"le","g":2,"r":1,"rev":1200000,"p":[[1,1200000]],"nat":"VN","du":false,"rn":[607],"ci":[19,"16:30"],"co":[20,"10:45"]},{"n":"LÊ THỊ MAI HIÊN","s":"quen","g":6,"r":3,"rev":3300000,"p":[[3,1000000]],"nat":"VN","du":false,"rn":[302,303,304],"ci":[19,"15:15"],"co":[20,"09:45"]},{"n":"MR ĐƯỢC ĐCV_CHUNG","s":"quen","g":4,"r":2,"rev":2000000,"p":[[2,1000000]],"nat":"VN","du":false,"rn":[603,604],"ci":[19,"14:00"],"co":[20,"10:45"]},{"n":"MR TOÀN H.ĐĂNG","s":"quen","g":8,"r":4,"rev":4000000,"p":[[3,900000],[1,1000000]],"nat":"VN","du":false,"rn":[207,208,209,301],"ci":[19,"15:30"],"co":[20,"11:45"]},{"n":"K.C.HOA_ THẾ ANH","s":"quen","g":2,"r":1,"rev":700000,"p":[[1,700000]],"nat":"VN","du":false,"rn":[605],"ci":[19,"16:15"],"co":[20,"10:00"]},{"n":"LÊ THANH SƠN","s":"quen","g":6,"r":3,"rev":3300000,"p":[[2,1100000],[1,1000000]],"nat":"VN","du":false,"rn":[305,306,307],"ci":[19,"15:30"],"co":[21,"11:00"]}]},{"d":20,"rooms":53,"roomrev":60000000,"food":0,"drink":450000,"other":0,"total":60450000,"cash":11025000,"ck":49490000,"segs":{"daily":[19,18800000],"quen":[27,32000000],"le":[6,8200000],"noibo":[1,1000000]},"wd":5,"bk":[{"n":"HLG TOURS","s":"daily","g":13,"r":6,"rev":5500000,"p":[[5,850000],[1,1050000]],"nat":"VN","du":false,"rn":[201,202,203,204,205,206],"ci":[19,"14:45"],"co":[21,"11:00"]},{"n":"SHINE TV","s":"daily","g":5,"r":2,"rev":2150000,"p":[[1,1000000],[1,1150000]],"nat":"VN","du":false,"rn":[604,605],"ci":[20,"15:15"],"co":[21,"11:30"]},{"n":"MR ĐƯỢC ĐCV_MS TRANG","s":"quen","g":6,"r":2,"rev":2500000,"p":[[2,1250000]],"nat":"VN","du":false,"rn":[704,705],"ci":[19,"15:30"],"co":[21,"12:00"]},{"n":"LÊ THANH SƠN","s":"quen","g":6,"r":3,"rev":3300000,"p":[[2,1100000],[1,1000000]],"nat":"VN","du":false,"rn":[305,306,307],"ci":[19,"15:30"],"co":[21,"11:00"]},{"n":"K.LẺ","s":"le","g":1,"r":1,"rev":1400000,"p":[[1,1400000]],"nat":"VN","du":false,"rn":[701],"ci":[20,"17:00"],"co":[21,"10:15"]},{"n":"K.LẺ TÔ THỊ HIỆU","s":"le","g":1,"r":1,"rev":1400000,"p":[[1,1400000]],"nat":"VN","du":false,"rn":[609],"ci":[20,"16:00"],"co":[22,"11:45"]},{"n":"SHINE TV","s":"daily","g":2,"r":1,"rev":1150000,"p":[[1,1000000]],"nat":"VN","du":false,"rn":[601],"ci":[20,"15:15"],"co":[21,"11:30"]},{"n":"MS NGÂN","s":"quen","g":27,"r":10,"rev":11050000,"p":[[7,1150000],[3,1000000]],"nat":"VN","du":false,"rn":[207,208,209,301,302,303,304,308,309,401],"ci":[20,"15:45"],"co":[21,"10:45"]},{"n":"K.C HOA LILY TV","s":"daily","g":21,"r":10,"rev":10000000,"p":[[6,900000],[3,1000000],[1,1150000]],"nat":"VN","du":false,"rn":[402,403,404,405,406,407,408,409,501,502],"ci":[20,"15:45"],"co":[21,"10:30"]},{"n":"MR ĐƯỢC","s":"quen","g":9,"r":4,"rev":4900000,"p":[[3,1000000],[1,1150000]],"nat":"VN","du":false,"rn":[503,504,505,506],"ci":[20,"14:45"],"co":[21,"11:30"]},{"n":"K.LẺ TRƯỜNG GIANG","s":"le","g":2,"r":1,"rev":1500000,"p":[[1,1500000]],"nat":"VN","du":false,"rn":[],"ci":[20,"18:15"],"co":[21,"07:30"]},{"n":"NHẬT QUỲNH","s":"quen","g":4,"r":2,"rev":2200000,"p":[[2,1100000]],"nat":"VN","du":false,"rn":[702,706],"ci":[20,"17:00"],"co":[21,"11:30"]},{"n":"K.NGA KT","s":"quen","g":4,"r":2,"rev":2600000,"p":[[2,1300000]],"nat":"VN","du":false,"rn":[606,607],"ci":[20,"15:00"],"co":[21,"09:30"]},{"n":"K.LẺ MR THƯỜNG","s":"le","g":4,"r":2,"rev":3000000,"p":[[2,1400000]],"nat":"VN","du":false,"rn":[602,608],"ci":[20,"19:15"],"co":[21,"10:00"]},{"n":"K.MS HUYỀN _P101","s":"noibo","g":2,"r":1,"rev":1000000,"p":[[1,1000000]],"nat":"VN","du":false,"rn":[101],"ci":[20,"19:00"],"co":[21,"08:30"]},{"n":"ĐIỆP THỊ DÔNG","s":"quen","g":9,"r":3,"rev":4350000,"p":[[3,1450000]],"nat":"VN","du":false,"rn":[507,508,509],"ci":[20,"14:00"],"co":[21,"10:00"]},{"n":"K.TQ_P603","s":"le","g":1,"r":1,"rev":1100000,"p":[[1,1100000]],"nat":"TQ","du":false,"rn":[603],"ci":[20,"16:00"],"co":[21,"12:00"]},{"n":"K.NGHI TIÊNG _P603","s":"le","g":0,"r":1,"rev":900000,"p":[[1,900000]],"nat":"VN","du":true,"rn":[703],"ci":[20,"12:00"],"co":[20,"14:30"]}]},{"d":21,"rooms":40,"roomrev":32400000,"food":0,"drink":130000,"other":1165000,"total":33695000,"cash":2815000,"ck":38605000,"segs":{"le":[3,2800000],"daily":[29,22650000],"quen":[8,6950000]},"wd":6,"bk":[{"n":"K.LẺ TÔ THỊ HIỆU","s":"le","g":1,"r":1,"rev":1200000,"p":[[1,1200000]],"nat":"VN","du":false,"rn":[609],"ci":[20,"16:00"],"co":[22,"11:45"]},{"n":"SHINE TV","s":"daily","g":2,"r":1,"rev":950000,"p":[[1,800000]],"nat":"VN","du":false,"rn":[701],"ci":[21,"18:15"],"co":[22,"07:30"]},{"n":"DL KINH BẮC","s":"daily","g":30,"r":15,"rev":10800000,"p":[[15,700000]],"nat":"VN","du":false,"rn":[201,202,203,204,205,206,207,208,209,301,302,303,304,305,306],"ci":[21,"14:45"],"co":[22,"08:45"]},{"n":"DL T.Y.V","s":"daily","g":9,"r":3,"rev":2700000,"p":[[3,900000]],"nat":"VN","du":false,"rn":[408,409,501],"ci":[21,"16:00"],"co":[23,"08:45"]},{"n":"LONG NHỊ ĐỆ","s":"quen","g":6,"r":2,"rev":1800000,"p":[[2,900000]],"nat":"VN","du":false,"rn":[703,705],"ci":[21,"20:15"],"co":[22,"08:00"]},{"n":"MR ĐƯỢC","s":"quen","g":6,"r":2,"rev":1700000,"p":[[2,750000]],"nat":"VN","du":false,"rn":[603,604],"ci":[21,"17:00"],"co":[22,"10:15"]},{"n":"DL STAR","s":"daily","g":31,"r":10,"rev":8200000,"p":[[4,650000],[1,850000],[5,950000]],"nat":"VN","du":false,"rn":[307,308,309,401,402,403,404,405,406,407],"ci":[21,"14:45"],"co":[23,"09:30"]},{"n":"MR ĐƯƠC DCV_TẠ T.DUNG","s":"quen","g":3,"r":1,"rev":750000,"p":[[1,750000]],"nat":"VN","du":false,"rn":[605],"ci":[21,"18:45"],"co":[22,"12:00"]},{"n":"K.C.HOA _MS LỘC","s":"quen","g":4,"r":2,"rev":1400000,"p":[[2,700000]],"nat":"VN","du":false,"rn":[601,602],"ci":[21,"15:45"],"co":[22,"09:45"]},{"n":"K.LẺ_704","s":"le","g":3,"r":1,"rev":1200000,"p":[[1,1200000]],"nat":"VN","du":false,"rn":[704],"ci":[21,"19:45"],"co":[22,"11:30"]},{"n":"BÙI VĂN TUẤN","s":"quen","g":4,"r":1,"rev":1300000,"p":[[1,1300000]],"nat":"VN","du":false,"rn":[607],"ci":[21,"17:15"],"co":[22,"12:00"]},{"n":"K.NGHỈ TIẾNG _CA3","s":"le","g":0,"r":1,"rev":400000,"p":[[1,400000]],"nat":"VN","du":true,"rn":[606],"ci":[21,"14:30"],"co":[21,"16:45"]}]},{"d":22,"rooms":51,"roomrev":40800000,"food":0,"drink":440000,"other":684000,"total":41924000,"cash":5536000,"ck":37071000,"segs":{"daily":[41,32600000],"le":[1,1200000],"quen":[8,7000000],"noibo":[1,0]},"wd":0,"bk":[{"n":"DL T.Y.V","s":"daily","g":9,"r":3,"rev":2700000,"p":[[3,900000]],"nat":"VN","du":false,"rn":[408,409,501],"ci":[21,"16:00"],"co":[23,"08:45"]},{"n":"DL STAR","s":"daily","g":31,"r":10,"rev":8200000,"p":[[4,650000],[1,850000],[5,950000]],"nat":"VN","du":false,"rn":[307,308,309,401,402,403,404,405,406,407],"ci":[21,"14:45"],"co":[23,"09:30"]},{"n":"K.LẺ ĐÀO X. THÁI _KO ĂS","s":"le","g":2,"r":1,"rev":1200000,"p":[[1,1200000]],"nat":"VN","du":false,"rn":[705],"ci":[22,"15:45"],"co":[23,"08:15"]},{"n":"MR TÚ","s":"quen","g":30,"r":8,"rev":7000000,"p":[[2,750000],[6,900000]],"nat":"VN","du":false,"rn":[603,604,605,606,607,608,609,701],"ci":[22,"15:15"],"co":[24,"11:15"]},{"n":"SHINE TVEL","s":"daily","g":6,"r":3,"rev":2300000,"p":[[1,700000],[2,800000]],"nat":"VN","du":false,"rn":[702,703,704],"ci":[22,"14:30"],"co":[24,"11:00"]},{"n":"HỒNG CITRINE_DL BÌNH MINH","s":"daily","g":50,"r":25,"rev":19400000,"p":[[25,650000]],"nat":"VN","du":false,"rn":[201,202,203,204,205,206,207,208,209,301,302,303,304,305,306,502,503,504,505,506,507,508,509,601,602],"ci":[22,"15:30"],"co":[24,"10:00"]},{"n":"NỘI BỘ","s":"noibo","g":4,"r":1,"rev":0,"p":[[1,0]],"nat":"","du":false,"rn":[101],"ci":[22,"17:00"],"co":[23,"07:30"]}]},{"d":23,"rooms":52,"roomrev":43850000,"food":0,"drink":930000,"other":609000,"total":45389000,"cash":13923000,"ck":31925000,"segs":{"quen":[9,7950000],"daily":[37,29200000],"noibo":[1,0],"le":[5,6700000]},"wd":1,"bk":[{"n":"MR TÚ","s":"quen","g":30,"r":8,"rev":7000000,"p":[[2,750000],[6,900000]],"nat":"VN","du":false,"rn":[603,604,605,606,607,608,609,701],"ci":[22,"15:15"],"co":[24,"11:15"]},{"n":"SHINE TVEL","s":"daily","g":6,"r":3,"rev":2300000,"p":[[1,700000],[2,800000]],"nat":"VN","du":false,"rn":[702,703,704],"ci":[22,"14:30"],"co":[24,"11:00"]},{"n":"HỒNG CITRINE_DL BÌNH MINH","s":"daily","g":50,"r":25,"rev":19400000,"p":[[25,650000]],"nat":"VN","du":false,"rn":[201,202,203,204,205,206,207,208,209,301,302,303,304,305,306,502,503,504,505,506,507,508,509,601,602],"ci":[22,"15:30"],"co":[24,"10:00"]},{"n":"NỘI BỘ","s":"noibo","g":4,"r":1,"rev":0,"p":[[1,0]],"nat":"","du":false,"rn":[101],"ci":[23,"21:00"],"co":[24,"09:45"]},{"n":"K.LẺ_P507","s":"le","g":5,"r":1,"rev":1400000,"p":[[1,1400000]],"nat":"VN","du":false,"rn":[501],"ci":[23,"19:00"],"co":[24,"08:45"]},{"n":"K.LẺ MR MẠNH","s":"le","g":7,"r":2,"rev":2400000,"p":[[2,1200000]],"nat":"VN","du":false,"rn":[407,408],"ci":[23,"16:15"],"co":[24,"07:30"]},{"n":"K.LẺ P605","s":"le","g":4,"r":1,"rev":1500000,"p":[[1,1500000]],"nat":"VN","du":false,"rn":[705],"ci":[23,"18:00"],"co":[24,"10:30"]},{"n":"SHINE TV","s":"daily","g":2,"r":1,"rev":700000,"p":[[1,700000]],"nat":"VN","du":false,"rn":[706],"ci":[23,"14:45"],"co":[24,"08:45"]},{"n":"K.LẺ_P302","s":"le","g":4,"r":1,"rev":1400000,"p":[[1,1400000]],"nat":"VN","du":false,"rn":[403],"ci":[23,"16:30"],"co":[24,"08:45"]},{"n":"DL T.Y.VIỆT","s":"daily","g":17,"r":8,"rev":6800000,"p":[[7,700000],[1,850000]],"nat":"VN","du":false,"rn":[307,308,309,401,402,404,405,406],"ci":[23,"15:15"],"co":[25,"09:00"]},{"n":"MRS NGÂN","s":"quen","g":3,"r":1,"rev":950000,"p":[[1,950000]],"nat":"VN","du":false,"rn":[409],"ci":[23,"20:15"],"co":[25,"10:30"]}]},{"d":24,"rooms":40,"roomrev":34500000,"food":0,"drink":445000,"other":404000,"total":35349000,"cash":4644000,"ck":31108000,"segs":{"daily":[22,16650000],"quen":[8,8550000],"noibo":[1,400000],"le":[9,8900000]},"wd":2,"bk":[{"n":"SHINE TV","s":"daily","g":2,"r":1,"rev":700000,"p":[[1,700000]],"nat":"VN","du":false,"rn":[701],"ci":[24,"17:15"],"co":[25,"08:30"]},{"n":"DL T.Y.VIỆT","s":"daily","g":17,"r":8,"rev":6800000,"p":[[7,700000],[1,850000]],"nat":"VN","du":false,"rn":[307,308,309,401,402,404,405,406],"ci":[23,"15:15"],"co":[25,"09:00"]},{"n":"MRS NGÂN","s":"quen","g":3,"r":1,"rev":950000,"p":[[1,950000]],"nat":"VN","du":false,"rn":[409],"ci":[23,"20:15"],"co":[25,"10:30"]},{"n":"K.LINH HỒNG","s":"quen","g":11,"r":4,"rev":4150000,"p":[[3,1050000],[1,700000]],"nat":"VN","du":false,"rn":[302,303,304,305],"ci":[24,"15:45"],"co":[25,"11:45"]},{"n":"SHINE TV","s":"daily","g":2,"r":1,"rev":700000,"p":[[1,700000]],"nat":"VN","du":false,"rn":[702],"ci":[24,"17:15"],"co":[25,"08:30"]},{"n":"MS TRÚC","s":"quen","g":3,"r":1,"rev":1300000,"p":[[1,1300000]],"nat":"VN","du":false,"rn":[601],"ci":[24,"16:15"],"co":[25,"12:00"]},{"n":"DL KÌ NGHỈ VÀNG","s":"daily","g":20,"r":10,"rev":6500000,"p":[[10,650000]],"nat":"VN","du":false,"rn":[201,202,203,204,205,206,207,208,209,301],"ci":[24,"14:45"],"co":[26,"08:45"]},{"n":"NỘI BỘ","s":"noibo","g":2,"r":1,"rev":400000,"p":[[1,400000]],"nat":"","du":false,"rn":[101],"ci":[24,"17:45"],"co":[25,"08:45"]},{"n":"DL XUYÊN VIỆT","s":"daily","g":3,"r":1,"rev":900000,"p":[[1,900000]],"nat":"VN","du":false,"rn":[703],"ci":[24,"17:45"],"co":[25,"09:15"]},{"n":"MS NGÂN_MR HÙNG","s":"quen","g":2,"r":1,"rev":800000,"p":[[1,700000]],"nat":"VN","du":false,"rn":[605],"ci":[24,"17:30"],"co":[26,"09:45"]},{"n":"MS NGÂN_MS LÀNH","s":"quen","g":2,"r":1,"rev":700000,"p":[[1,700000]],"nat":"VN","du":false,"rn":[603],"ci":[24,"16:00"],"co":[26,"08:00"]},{"n":"K.LẺ_ĐỖ THỊ QUÝ","s":"le","g":6,"r":3,"rev":3800000,"p":[[3,1200000]],"nat":"VN","du":false,"rn":[306,403,407],"ci":[24,"13:30"],"co":[25,"07:45"]},{"n":"K.LẺ _P506","s":"le","g":3,"r":1,"rev":1600000,"p":[[1,1600000]],"nat":"VN","du":false,"rn":[506],"ci":[24,"20:45"],"co":[25,"10:15"]},{"n":"K.LẺ_ KIM NGÂN","s":"le","g":4,"r":2,"rev":1600000,"p":[[2,800000]],"nat":"VN","du":false,"rn":[705,706],"ci":[24,"18:15"],"co":[26,"08:00"]},{"n":"STAR TV_PHAN LINH","s":"daily","g":3,"r":1,"rev":1050000,"p":[[1,950000]],"nat":"VN","du":false,"rn":[704],"ci":[24,"17:45"],"co":[27,"11:45"]},{"n":"K.LẺ. NG V. THỨC","s":"le","g":2,"r":1,"rev":700000,"p":[[1,700000]],"nat":"VN","du":false,"rn":[604],"ci":[24,"14:15"],"co":[25,"11:45"]},{"n":"K.LẺ _VIỆT KHẮC","s":"le","g":2,"r":1,"rev":800000,"p":[[1,800000]],"nat":"VN","du":false,"rn":[608],"ci":[24,"20:00"],"co":[25,"11:45"]},{"n":"K.NGHỈ TIẾNG","s":"le","g":0,"r":1,"rev":400000,"p":[[1,400000]],"nat":"VN","du":true,"rn":[609],"ci":[24,"12:45"],"co":[24,"15:45"]}]},{"d":25,"rooms":20,"roomrev":14850000,"food":0,"drink":180000,"other":311000,"total":15341000,"cash":380000,"ck":15222000,"segs":{"daily":[11,7550000],"noibo":[1,400000],"quen":[6,5300000],"le":[2,1600000]},"wd":3,"bk":[{"n":"DL KÌ NGHỈ VÀNG","s":"daily","g":20,"r":10,"rev":6500000,"p":[[10,650000]],"nat":"VN","du":false,"rn":[201,202,203,204,205,206,207,208,209,301],"ci":[24,"14:45"],"co":[26,"08:45"]},{"n":"NỘI BỘ","s":"noibo","g":2,"r":1,"rev":400000,"p":[[1,400000]],"nat":"","du":false,"rn":[101],"ci":[25,"14:00"],"co":[26,"09:30"]},{"n":"MS NGÂN_MR HÙNG","s":"quen","g":2,"r":1,"rev":800000,"p":[[1,700000]],"nat":"VN","du":false,"rn":[605],"ci":[24,"17:30"],"co":[26,"09:45"]},{"n":"MS NGÂN_MS LÀNH","s":"quen","g":2,"r":1,"rev":700000,"p":[[1,700000]],"nat":"VN","du":false,"rn":[603],"ci":[24,"16:00"],"co":[26,"08:00"]},{"n":"K.LẺ_ KIM NGÂN","s":"le","g":4,"r":2,"rev":1600000,"p":[[2,800000]],"nat":"VN","du":false,"rn":[705,706],"ci":[24,"18:15"],"co":[26,"08:00"]},{"n":"STAR TV_PHAN LINH","s":"daily","g":3,"r":1,"rev":1050000,"p":[[1,950000]],"nat":"VN","du":false,"rn":[704],"ci":[24,"17:45"],"co":[27,"11:45"]},{"n":"MR PHÚC H.ĐĂNG","s":"quen","g":2,"r":1,"rev":1000000,"p":[[1,850000]],"nat":"VN","du":false,"rn":[601],"ci":[25,"20:00"],"co":[27,"11:30"]},{"n":"MR TUẤN ANH","s":"quen","g":4,"r":2,"rev":1800000,"p":[[2,800000]],"nat":"VN","du":false,"rn":[602,604],"ci":[25,"14:00"],"co":[28,"10:15"]},{"n":"NGUYỄN THỊ HIỀN","s":"quen","g":2,"r":1,"rev":900000,"p":[[1,900000]],"nat":"VN","du":false,"rn":[703],"ci":[25,"14:00"],"co":[27,"11:30"]}]},{"d":26,"rooms":52,"roomrev":56350000,"food":0,"drink":140000,"other":84000,"total":56574000,"cash":6738000,"ck":47520000,"segs":{"daily":[9,9800000],"quen":[38,40550000],"noibo":[1,400000],"le":[4,5600000]},"wd":4,"bk":[{"n":"STAR TV_PHAN LINH","s":"daily","g":3,"r":1,"rev":1250000,"p":[[1,1150000]],"nat":"VN","du":false,"rn":[704],"ci":[24,"17:45"],"co":[27,"11:45"]},{"n":"MR PHÚC H.ĐĂNG","s":"quen","g":2,"r":1,"rev":1000000,"p":[[1,850000]],"nat":"VN","du":false,"rn":[601],"ci":[25,"20:00"],"co":[27,"11:30"]},{"n":"MR TUẤN ANH","s":"quen","g":4,"r":2,"rev":2800000,"p":[[2,1300000]],"nat":"VN","du":false,"rn":[602,604],"ci":[25,"14:00"],"co":[28,"10:15"]},{"n":"NGUYỄN THỊ HIỀN","s":"quen","g":2,"r":1,"rev":900000,"p":[[1,900000]],"nat":"VN","du":false,"rn":[703],"ci":[25,"14:00"],"co":[27,"11:30"]},{"n":"DL TRƯỜNG AN","s":"daily","g":30,"r":8,"rev":8550000,"p":[[7,1150000],[1,500000]],"nat":"VN","du":false,"rn":[409,501,502,503,504,505,506,507],"ci":[26,"15:15"],"co":[27,"07:45"]},{"n":"LƯU TUÂN","s":"quen","g":34,"r":12,"rev":13000000,"p":[[1,900000],[1,950000],[9,1100000],[1,1250000]],"nat":"VN","du":false,"rn":[306,307,308,309,401,402,403,404,405,406,407,408],"ci":[26,"16:00"],"co":[28,"08:45"]},{"n":"MR ĐƯỢC NHĐCV","s":"quen","g":28,"r":14,"rev":14450000,"p":[[14,1000000]],"nat":"VN","du":false,"rn":[201,202,203,204,205,206,207,208,209,301,302,303,304,305],"ci":[26,"14:45"],"co":[28,"09:15"]},{"n":"NB TỰ TT","s":"noibo","g":2,"r":1,"rev":400000,"p":[[1,400000]],"nat":"","du":false,"rn":[101],"ci":[26,"18:45"],"co":[27,"08:00"]},{"n":"K.LẺ P608","s":"le","g":3,"r":1,"rev":1500000,"p":[[1,1500000]],"nat":"VN","du":false,"rn":[608],"ci":[26,"19:00"],"co":[27,"08:00"]},{"n":"K.NGA KT","s":"quen","g":10,"r":4,"rev":4400000,"p":[[2,1250000],[2,700000]],"nat":"VN","du":false,"rn":[508,509,603,605],"ci":[26,"14:15"],"co":[27,"07:30"]},{"n":"K. C. CẨM_MRS CHÂM","s":"quen","g":7,"r":2,"rev":2000000,"p":[[2,1000000]],"nat":"VN","du":false,"rn":[606,607],"ci":[26,"19:30"],"co":[28,"10:15"]},{"n":"K.LẺ_DƯƠNG KHÁNH LY","s":"le","g":5,"r":1,"rev":1400000,"p":[[1,1400000]],"nat":"VN","du":false,"rn":[701],"ci":[26,"16:00"],"co":[27,"09:15"]},{"n":"K.LẺ PHẠM CÔNG MẠNH","s":"le","g":1,"r":1,"rev":1000000,"p":[[1,1000000]],"nat":"VN","du":false,"rn":[702],"ci":[26,"17:30"],"co":[27,"08:15"]},{"n":"K.THẾ ANH","s":"quen","g":4,"r":2,"rev":2000000,"p":[[2,1000000]],"nat":"VN","du":false,"rn":[609,705],"ci":[26,"20:15"],"co":[27,"11:00"]},{"n":"K.LẺ_706","s":"le","g":1,"r":1,"rev":1700000,"p":[[1,1700000]],"nat":"TQ","du":false,"rn":[706],"ci":[26,"15:00"],"co":[27,"10:30"]}]},{"d":27,"rooms":52,"roomrev":58000000,"food":0,"drink":345000,"other":498000,"total":58843000,"cash":6814000,"ck":52127000,"segs":{"quen":[35,38750000],"le":[1,1400000],"daily":[16,17850000]},"wd":5,"bk":[{"n":"MR TUẤN ANH","s":"quen","g":4,"r":2,"rev":2800000,"p":[[2,1300000]],"nat":"VN","du":false,"rn":[602,604],"ci":[25,"14:00"],"co":[28,"10:15"]},{"n":"LƯU TUÂN","s":"quen","g":34,"r":12,"rev":13000000,"p":[[1,900000],[1,950000],[9,1100000],[1,1250000]],"nat":"VN","du":false,"rn":[306,307,308,309,401,402,403,404,405,406,407,408],"ci":[26,"16:00"],"co":[28,"08:45"]},{"n":"MR ĐƯỢC NHĐCV","s":"quen","g":28,"r":14,"rev":14750000,"p":[[14,1000000]],"nat":"VN","du":false,"rn":[201,202,203,204,205,206,207,208,209,301,302,303,304,305],"ci":[26,"14:45"],"co":[28,"09:15"]},{"n":"K.LẺ P608>>306","s":"le","g":3,"r":1,"rev":1400000,"p":[[1,1400000]],"nat":"VN","du":false,"rn":[608],"ci":[27,"19:15"],"co":[28,"10:00"]},{"n":"K. C. CẨM_MRS CHÂM","s":"quen","g":7,"r":2,"rev":2000000,"p":[[2,1000000]],"nat":"VN","du":false,"rn":[606,607],"ci":[26,"19:30"],"co":[28,"10:15"]},{"n":"K.CK C HOA","s":"quen","g":7,"r":2,"rev":2400000,"p":[[2,1200000]],"nat":"VN","du":false,"rn":[704,705],"ci":[27,"14:00"],"co":[29,"11:00"]},{"n":"MRS LIẾU","s":"quen","g":8,"r":2,"rev":3000000,"p":[[2,1500000]],"nat":"VN","du":false,"rn":[703,706],"ci":[27,"20:15"],"co":[28,"10:00"]},{"n":"TH HẠ LONG","s":"daily","g":35,"r":15,"rev":16700000,"p":[[6,900000],[5,1250000],[4,1000000]],"nat":"VN","du":false,"rn":[409,501,502,503,504,505,506,507,508,509,601,603,605,609,701],"ci":[27,"14:00"],"co":[28,"08:15"]},{"n":"4 SEASON","s":"daily","g":2,"r":1,"rev":1150000,"p":[[1,1150000]],"nat":"VN","du":false,"rn":[702],"ci":[27,"20:45"],"co":[28,"11:15"]},{"n":"MR LUÂN","s":"quen","g":2,"r":1,"rev":800000,"p":[[1,800000]],"nat":"VN","du":false,"rn":[],"ci":[27,"18:15"],"co":[28,"08:15"]}]},{"d":28,"rooms":42,"roomrev":30340000,"food":0,"drink":220000,"other":380000,"total":30940000,"cash":4349000,"ck":24430000,"segs":{"quen":[16,7940000],"daily":[23,20400000],"noibo":[1,0],"le":[2,2000000]},"wd":6,"bk":[{"n":"K.CK C HOA","s":"quen","g":7,"r":2,"rev":2400000,"p":[[2,1200000]],"nat":"VN","du":false,"rn":[704,705],"ci":[27,"14:00"],"co":[29,"11:00"]},{"n":"TH HẠ LONG","s":"daily","g":10,"r":4,"rev":3650000,"p":[[2,700000],[2,1050000]],"nat":"VN","du":false,"rn":[502,503,504,505],"ci":[28,"14:30"],"co":[29,"08:00"]},{"n":"DRAGON","s":"daily","g":4,"r":2,"rev":1700000,"p":[[2,700000]],"nat":"VN","du":false,"rn":[601,602],"ci":[28,"20:45"],"co":[30,"11:00"]},{"n":"MR ĐƯỢC","s":"quen","g":2,"r":1,"rev":600000,"p":[[1,600000]],"nat":"ANH","du":false,"rn":[701],"ci":[28,"19:00"],"co":[30,"07:45"]},{"n":"DL BẮC NINH","s":"daily","g":56,"r":15,"rev":13650000,"p":[[1,650000],[2,800000],[12,950000]],"nat":"VN","du":false,"rn":[201,202,203,204,205,206,207,208,209,301,302,303,304,305,306],"ci":[28,"14:15"],"co":[29,"10:15"]},{"n":"NB","s":"noibo","g":3,"r":1,"rev":0,"p":[[1,0]],"nat":"","du":false,"rn":[101],"ci":[28,"14:45"],"co":[29,"08:45"]},{"n":"SHINE TV 5514","s":"daily","g":2,"r":1,"rev":700000,"p":[[1,700000]],"nat":"VN","du":false,"rn":[605],"ci":[28,"14:00"],"co":[30,"08:30"]},{"n":"ĐỖ THỊ HÀ","s":"quen","g":26,"r":13,"rev":4940000,"p":[[13,380000]],"nat":"VN","du":false,"rn":[307,308,309,401,402,403,404,405,406,407,408,409,501],"ci":[28,"14:00"],"co":[30,"09:45"]},{"n":"SHINE TV 5295","s":"daily","g":2,"r":1,"rev":700000,"p":[[1,700000]],"nat":"VN","du":false,"rn":[702],"ci":[28,"15:00"],"co":[29,"08:15"]},{"n":"K.LẺ","s":"le","g":2,"r":1,"rev":1000000,"p":[[1,1000000]],"nat":"VN","du":false,"rn":[608],"ci":[28,"19:00"],"co":[29,"07:45"]},{"n":"K.LẺ 604","s":"le","g":2,"r":1,"rev":1000000,"p":[[1,1000000]],"nat":"VN","du":false,"rn":[604],"ci":[28,"18:00"],"co":[30,"11:45"]}]},{"d":29,"rooms":35,"roomrev":25740000,"food":0,"drink":370000,"other":388000,"total":26498000,"cash":2512000,"ck":16117000,"segs":{"daily":[10,8600000],"quen":[19,10990000],"le":[5,5750000],"noibo":[1,400000]},"wd":0,"bk":[{"n":"DRAGON","s":"daily","g":4,"r":2,"rev":1700000,"p":[[2,700000]],"nat":"VN","du":false,"rn":[601,602],"ci":[28,"20:45"],"co":[30,"11:00"]},{"n":"MR ĐƯỢC","s":"quen","g":2,"r":1,"rev":600000,"p":[[1,600000]],"nat":"ANH","du":false,"rn":[701],"ci":[28,"19:00"],"co":[30,"07:45"]},{"n":"SHINE TV 5514","s":"daily","g":2,"r":1,"rev":700000,"p":[[1,700000]],"nat":"VN","du":false,"rn":[605],"ci":[28,"14:00"],"co":[30,"08:30"]},{"n":"ĐỖ THỊ HÀ","s":"quen","g":26,"r":13,"rev":4940000,"p":[[13,380000]],"nat":"VN","du":false,"rn":[307,308,309,401,402,403,404,405,406,407,408,409,501],"ci":[28,"14:00"],"co":[30,"09:45"]},{"n":"K.LẺ 604","s":"le","g":2,"r":1,"rev":1000000,"p":[[1,1000000]],"nat":"VN","du":false,"rn":[604],"ci":[28,"18:00"],"co":[30,"11:45"]},{"n":"DL TRƯỜNG AN","s":"daily","g":25,"r":7,"rev":6200000,"p":[[1,650000],[1,800000],[5,950000]],"nat":"VN","du":false,"rn":[201,202,203,204,205,206,207],"ci":[29,"15:30"],"co":[30,"10:00"]},{"n":"NÔI BỘ","s":"noibo","g":2,"r":1,"rev":400000,"p":[[1,400000]],"nat":"","du":false,"rn":[101],"ci":[29,"15:45"],"co":[30,"12:00"]},{"n":"K.LẺ MRS HIỆP","s":"le","g":5,"r":2,"rev":2200000,"p":[[1,1000000],[1,1200000]],"nat":"VN","du":false,"rn":[704,705],"ci":[29,"16:00"],"co":[30,"08:45"]},{"n":"K.LẺ","s":"le","g":4,"r":2,"rev":2550000,"p":[[2,1200000]],"nat":"NGA","du":false,"rn":[603,606],"ci":[29,"16:45"],"co":[30,"10:00"]},{"n":"K.C.HOA _MR HIẾN","s":"quen","g":14,"r":5,"rev":5450000,"p":[[2,1000000],[3,1150000]],"nat":"VN","du":false,"rn":[208,209,301,302,303],"ci":[29,"15:30"],"co":[30,"11:45"]}]}],"ins":{"nat":"Theo ghi chép lễ tân, tháng 6 chỉ có 7 đêm phòng khách quốc tế trên tổng 1.076 đêm. Gần như toàn bộ là khách Việt."}};
+const $ = id => document.getElementById(id);
+const CAP = 51;
+const SEGS = {
+  daily:{n:"Đại lý, lữ hành",c:"#2E7D8C"},
+  quen:{n:"Khách quen, giới thiệu",c:"#8FB9A8"},
+  le:{n:"Khách lẻ",c:"#E0A33A"},
+  ota:{n:"Trip.com, OTA",c:"#B55D4C"},
+  noibo:{n:"Nội bộ",c:"#9AA9AE"}
+};
+const WD = ["Thứ 2","Thứ 3","Thứ 4","Thứ 5","Thứ 6","Thứ 7","CN"];
+const WDS = ["T2","T3","T4","T5","T6","T7","CN"];
+const TYPE = {TW:"Deluxe Twin",DB:"Deluxe Double",TRP:"Deluxe Triple",FAM:"Family",SUI:"Suite"};
+const PRICE = {TW:1100000,DB:1000000,TRP:1300000,FAM:1400000,SUI:1300000};
+const FLOORS = [
+  [7,["DB","DB","TW","SUI","SUI","SUI"]],
+  [6,["TW","DB","TW","TW","TW","FAM","TRP","FAM","TRP"]],
+  [5,["TW","DB","TW","TW","TW","FAM","TRP","FAM","TRP"]],
+  [4,["TW","DB","TW","TW","TW","TW","TRP","FAM","TRP"]],
+  [3,["TW","DB","TW","FAM","TW","TW","TRP","TW","TRP"]],
+  [2,["TW","TW","TW","TRP","TW","TW","TRP","TW","TRP"]]
+];
+function view(f,i){ if(f===7) return i<=3?"nhìn đồi":i<=5?"nhìn vòng quay Mặt Trời":"nhìn biển";
+  return i<=3?"nhìn đồi":i<=5?"nhìn vòng quay Mặt Trời":i<=8?"nhìn biển, ngắm pháo hoa":"nhìn phố"; }
+const ROOMS=[]; FLOORS.forEach(([f,ts])=>ts.forEach((t,k)=>ROOMS.push({no:f*100+k+1,f,t,v:view(f,k+1)})));
+
+let DATA=[], INS={}, sel=0, LAST=0, tab="in";
+const extra = {}; // day -> [booking]
+
+const fmtTr = v => (v/1e6).toLocaleString("vi-VN",{maximumFractionDigits:1})+" tr";
+const fmtK = v => Math.round(v/1000).toLocaleString("vi-VN")+" k";
+const pct = v => Math.round(v*100)+"%";
+const esc = s => String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const dm = d => d>30 ? (d-30)+"/7" : d+"/6";
+
+function bookings(i){ const b=DATA[i]; return b.bk.concat(extra[b.d]||[]); }
+function dayView(i){
+  const b=DATA[i], ex=extra[b.d]||[], all=bookings(i);
+  const occ=new Map(); all.forEach(k=>k.rn.forEach(no=>occ.set(no,k)));
+  const addRev=ex.reduce((s,e)=>s+e.rev,0);
+  const rooms=b.rooms+ex.length, roomrev=b.roomrev+addRev, total=b.total+addRev;
+  const paidRooms=rooms-((b.segs.noibo||[0])[0]);
+  return {b,occ,all,rooms,roomrev,total,adr:paidRooms?roomrev/paidRooms:0,
+    cash:b.cash+ex.filter(e=>e.pay==="cash").reduce((s,e)=>s+e.rev,0),
+    ck:b.ck+ex.filter(e=>e.pay==="ck").reduce((s,e)=>s+e.rev,0)};
+}
+function arrivals(i){ const d=DATA[i].d; return bookings(i).filter(k=>k.ci[0]===d); }
+function departures(i){
+  const d=DATA[i].d, out=bookings(i).filter(k=>k.du);
+  if(i>0) bookings(i-1).forEach(k=>{ if(!k.du && k.co && k.co[0]===d) out.push(k); });
+  return out;
+}
+
+function runs(rn){ // 201,202,203,305 -> "201–203, 305"
+  const a=[...rn].sort((x,y)=>x-y), out=[]; let s=null,p=null;
+  a.forEach(n=>{ if(s===null){s=p=n} else if(n===p+1 && Math.floor(n/100)===Math.floor(p/100)){p=n} else {out.push(s===p?""+s:s+"–"+p); s=p=n} });
+  if(s!==null) out.push(s===p?""+s:s+"–"+p);
+  return out.join(", ");
+}
+
+function renderTower(fresh){
+  const v=dayView(sel), b=v.b;
+  $("nightLabel").textContent=`Đêm ${WD[b.wd].toLowerCase()}, ${b.d}/6`;
+  const shown=Math.min(v.rooms,CAP);
+  tween($("occNum"),shown);
+  $("occPct").textContent=pct(shown/CAP)+(v.rooms>=CAP?" (kín)":"");
+  $("dayRev").textContent=fmtTr(v.total);
+  $("dayAdr").textContent=fmtK(v.adr);
+  $("qIn").textContent=v.all.filter(k=>!k.du).length;
+  $("qArr").textContent=arrivals(sel).length;
+  $("qDep").textContent=departures(sel).length;
+  const fac=$("facade"); fac.innerHTML="";
+  const info=(no,t,room)=>{
+    const k=v.occ.get(no);
+    if(!k) return `Phòng ${no}: ${t?TYPE[t]+", "+room.v+". ":""}Đang trống.`;
+    return `Phòng ${no}: ${k.n}. Nhận ${k.ci[1]} ngày ${dm(k.ci[0])}, trả ${k.co?k.co[1]+" ngày "+dm(k.co[0]):"chưa rõ"}.`;
+  };
+  FLOORS.forEach(([f,ts])=>{
+    const row=document.createElement("div"); row.className="floor f"+f;
+    row.innerHTML=`<div class="fl">${f}</div>`;
+    ts.forEach((t,k)=>{
+      const no=f*100+k+1, room=ROOMS.find(x=>x.no===no), on=v.occ.has(no);
+      const w=document.createElement("button");
+      w.className="win"+(fresh===no?" on fresh":""); if(on) w.dataset.on="1";
+      w.style.setProperty("--d",((f-2)*70+k*22)+"ms");
+      w.innerHTML=`<span>${no}</span>`;
+      w.setAttribute("aria-label",`Phòng ${no}, ${on?"có khách":"trống"}`);
+      w.onclick=()=>{document.querySelectorAll(".win.sel").forEach(x=>x.classList.remove("sel"));w.classList.add("sel");
+        $("roomInfo").textContent=info(no,t,room)};
+      row.appendChild(w);
+    });
+    fac.appendChild(row);
+  });
+  const g=document.createElement("div"); g.className="ground";
+  g.innerHTML=`<div class="fl">1</div><button class="win nb" ${v.occ.has(101)?'data-on="1"':""} aria-label="Phòng 101 nội bộ"><span>101</span></button><div class="lobby">Sảnh, lễ tân</div>`;
+  g.querySelector("button").onclick=()=>{$("roomInfo").textContent=v.occ.has(101)?info(101):"Phòng 101: phòng nội bộ, không tính vào 51 phòng bán. Đang trống."};
+  fac.appendChild(g);
+  $("roomInfo").textContent="";
+  requestAnimationFrame(()=>requestAnimationFrame(()=>fac.querySelectorAll('.win[data-on]').forEach(w=>w.classList.add("on"))));
+  document.querySelectorAll(".day").forEach((el,i)=>el.setAttribute("aria-pressed",i===sel?"true":"false"));
+  renderChartSel(); renderGuests();
+}
+
+function renderGuests(){
+  const d=DATA[sel].d;
+  const lists={in:bookings(sel).filter(k=>!k.du), arr:arrivals(sel), dep:departures(sel)};
+  const order={in:(a,b)=>b.r-a.r, arr:(a,b)=>a.ci[1].localeCompare(b.ci[1]), dep:(a,b)=>(a.co?a.co[1]:"").localeCompare(b.co?b.co[1]:"")};
+  const L=lists[tab].slice().sort(order[tab]);
+  const guests=lists.in.reduce((s,k)=>s+(k.g||0),0);
+  $("gSub").textContent=`Ngày ${d}/6: ${lists.in.length} lượt khách đang ở với ${guests} người, ${lists.arr.length} lượt nhận phòng, ${lists.dep.length} lượt trả phòng.`;
+  $("gTabs").querySelectorAll("button").forEach(x=>{
+    const t=x.dataset.t; x.setAttribute("aria-pressed",t===tab?"true":"false");
+    x.textContent=({in:"Đang ở",arr:"Nhận",dep:"Trả"})[t]+" ("+lists[t].length+")";
+  });
+  if(!L.length){ $("gList").innerHTML=`<div class="empty">${({in:"Không có khách lưu trú đêm này.",arr:"Không có lượt nhận phòng trong ngày.",dep:"Không có lượt trả phòng trong ngày."})[tab]}</div>`; return; }
+  $("gList").innerHTML=L.map(k=>{
+    const isNew=k.ci[0]===d, leaves=k.co&&k.co[0]===d, lv1=k.co&&k.co[0]===d+1;
+    const chips=[`<span class="chip">${SEGS[k.s].n}</span>`];
+    if(k.du) chips.push(`<span class="chip">Nghỉ theo giờ</span>`);
+    if(isNew&&!k.du) chips.push(`<span class="chip new">Mới nhận hôm nay</span>`);
+    if(leaves&&!k.du) chips.push(`<span class="chip outc">Trả hôm nay</span>`);
+    const more=k.r-k.rn.length;
+    const price=k.p&&k.p.length?(k.p.length===1?fmtK(k.p[0][1])+" một phòng":[...new Set(k.p.map(x=>fmtK(x[1])))].join(", ")+" một phòng"):"";
+    return `<div class="g">
+      <div class="h"><span class="nm">${esc(k.n)}</span><span class="rc num">${k.r} phòng${k.g?", "+k.g+" khách":""}</span></div>
+      <div class="meta">${chips.join("")}</div>
+      <div class="rn num">Phòng ${runs(k.rn)}${more>0?" và "+more+" phòng nữa":""}${price?", giá "+price:""}</div>
+      <div class="tm">
+        <div><small>Nhận phòng</small><b class="num">${k.ci[1]}, ${dm(k.ci[0])}</b></div>
+        <div><small>${k.co&&k.co[0]<=d?"Trả phòng":"Dự kiến trả"}</small><b class="num">${k.co?k.co[1]+", "+dm(k.co[0]):"Chưa rõ"}</b></div>
+        <div class="mny"><small>${tab==="dep"&&!k.du?"Đêm trước":"Tiền đêm này"}</small><b class="num">${k.s==="noibo"&&!k.rev?"–":fmtTr(k.rev)}</b></div>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+function renderDays(){
+  const box=$("days"); box.innerHTML="";
+  DATA.forEach((b,i)=>{
+    const v=dayView(i), o=Math.min(v.rooms,CAP)/CAP;
+    const el=document.createElement("button"); el.className="day";
+    el.innerHTML=`<small>${WDS[b.wd]}</small><b class="num">${b.d}</b><span class="occ"><i style="width:${o*100}%"></i></span>`;
+    el.onclick=()=>{sel=i;renderTower()};
+    box.appendChild(el);
+  });
+  box.scrollLeft=box.scrollWidth;
+}
+
+function monthAgg(){
+  let rev=0,roomrev=0,rooms=0,nb=0,food=0,drink=0,other=0,cash=0,ck=0; const seg={};
+  let wd=[0,0],we=[0,0];
+  DATA.forEach((b,i)=>{
+    const v=dayView(i), ex=extra[b.d]||[];
+    rev+=v.total; roomrev+=v.roomrev; rooms+=v.rooms; food+=b.food; drink+=b.drink; other+=b.other; cash+=v.cash; ck+=v.ck;
+    nb+=(b.segs.noibo||[0])[0];
+    Object.entries(b.segs).forEach(([k,[r,m]])=>{seg[k]=seg[k]||[0,0];seg[k][0]+=r;seg[k][1]+=m});
+    ex.forEach(e=>{seg[e.s]=seg[e.s]||[0,0];seg[e.s][0]++;seg[e.s][1]+=e.rev});
+    const o=Math.min(v.rooms,CAP)/CAP; const bucket=(b.wd===4||b.wd===5)?we:wd; bucket[0]+=o; bucket[1]++;
+  });
+  const occ=DATA.reduce((s,b,i)=>s+Math.min(dayView(i).rooms,CAP),0)/(CAP*DATA.length);
+  return {rev,roomrev,rooms,nb,food,drink,other,cash,ck,seg,occ,adr:roomrev/(rooms-nb),revpar:roomrev/(CAP*DATA.length),wd:wd[0]/wd[1],we:we[0]/we[1]};
+}
+
+function renderMonth(){
+  const m=monthAgg();
+  $("mRev").textContent=fmtTr(m.rev); $("mOcc").textContent=pct(m.occ); $("mAdr").textContent=fmtK(m.adr); $("mRevpar").textContent=fmtK(m.revpar);
+  $("wdOcc").textContent=pct(m.wd); $("weOcc").textContent=pct(m.we);
+  const lowDays=DATA.filter((b,i)=>Math.min(dayView(i).rooms,CAP)/CAP<0.5).length;
+  $("wkInsight").textContent=`Cuối tuần gần như kín, giữa tuần còn trống nhiều. Có ${lowDays} đêm dưới 50% công suất, và đa số rơi vào giữa tuần. Đây là chỗ nên dồn giá đoàn, khách đại lý và kênh online để lấp.`;
+  const order=["daily","quen","le","ota","noibo"].filter(k=>m.seg[k]&&m.seg[k][0]>0);
+  const totR=order.reduce((s,k)=>s+m.seg[k][0],0);
+  $("segStack").innerHTML=order.map(k=>`<i style="background:${SEGS[k].c};width:${m.seg[k][0]/totR*100}%"></i>`).join("");
+  $("segRows").innerHTML=order.map(k=>{const [r,mm]=m.seg[k];return `<div class="r"><span class="dot" style="background:${SEGS[k].c}"></span><span>${SEGS[k].n}</span><span class="v num">${r} đêm, ${pct(r/totR)}</span><span class="p num">${k==="noibo"?"–":fmtK(mm/r)}</span></div>`}).join("");
+  $("natInsight").textContent=INS.nat||"";
+  const coll=m.cash+m.ck;
+  $("mixRows").innerHTML=[
+    ["Tiền phòng",m.roomrev,m.rev,"#2E7D8C"],
+    ["Ăn uống, đồ uống",m.food+m.drink,m.rev,"#8FB9A8"],
+    ["Dịch vụ khác, VAT, phụ thu",Math.max(m.rev-m.roomrev-m.food-m.drink,0),m.rev,"#E0A33A"],
+  ].map(([n,v,t,c])=>`<div class="r"><span class="dot" style="background:${c}"></span><span>${n}</span><span class="v num">${pct(v/t)}</span><span class="p num">${fmtTr(v)}</span></div>`).join("")+
+  [["Thu tiền mặt",m.cash,coll,"#5E7F89"],["Thu chuyển khoản",m.ck,coll,"#10303F"]].map(([n,v,t,c])=>`<div class="r"><span class="dot" style="background:${c}"></span><span>${n}</span><span class="v num">${pct(v/t)}</span><span class="p num">${fmtTr(v)}</span></div>`).join("");
+}
+
+function renderChart(){
+  const svg=$("chart"), W=340,H=170,pad=22,bw=(W-pad)/DATA.length;
+  const max=Math.max(...DATA.map((b,i)=>dayView(i).total));
+  let s="";
+  [20,40,60].forEach(t=>{const y=H-20-(t*1e6/max)*(H-34);if(y>8)s+=`<line x1="${pad}" x2="${W}" y1="${y}" y2="${y}" stroke="var(--line)" stroke-width=".6"/><text x="0" y="${y+3}" font-size="8" fill="var(--muted)">${t}tr</text>`});
+  DATA.forEach((b,i)=>{const v=dayView(i),h=(v.total/max)*(H-34),x=pad+i*bw+1,y=H-20-h;
+    const wk=b.wd===4||b.wd===5;
+    s+=`<rect class="b" style="animation-delay:${i*18}ms" data-i="${i}" x="${x}" y="${y}" width="${bw-2}" height="${h}" rx="1.5" fill="${wk?"var(--barwk)":"var(--bar)"}"><title>${b.d}/6: ${fmtTr(v.total)}</title></rect>`;
+    if(b.d%5===0||b.d===1) s+=`<text x="${x+(bw-2)/2}" y="${H-6}" font-size="8.5" text-anchor="middle" fill="var(--muted)">${b.d}</text>`;
+  });
+  s+=`<rect id="selMark" x="0" y="${H-17}" width="${bw-2}" height="2.5" rx="1" fill="var(--ink)"/>`;
+  svg.innerHTML=s;
+  svg.querySelectorAll("rect.b").forEach(r=>r.onclick=()=>{sel=+r.dataset.i;renderTower();$("tower").scrollIntoView({behavior:"smooth",block:"start"})});
+  renderChartSel();
+}
+function renderChartSel(){const m=$("selMark");if(!m)return;const bw=(340-22)/DATA.length;m.setAttribute("x",22+sel*bw+1)}
+
+/* entry form */
+let fSegV="le";
+function fillRooms(){
+  const v=dayView(DATA.length-1), s=$("fRoom");
+  $("fRoomLbl").firstChild.textContent=`Phòng trống đêm ${LAST}/6 `;
+  const free=ROOMS.filter(r=>!v.occ.has(r.no));
+  s.innerHTML=free.length?free.map(r=>`<option value="${r.no}">${r.no}, ${TYPE[r.t]}, ${r.v}</option>`).join(""):`<option value="">Hết phòng trống</option>`;
+  setPrice();
+}
+function setPrice(){const no=+$("fRoom").value;const r=ROOMS.find(x=>x.no===no);if(r)$("fPrice").value=PRICE[r.t].toLocaleString("vi-VN")}
+function wire(){
+  $("fRoom").onchange=setPrice;
+  $("fSeg").querySelectorAll("button").forEach(b=>b.onclick=()=>{fSegV=b.dataset.v;$("fSeg").querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b?"true":"false"))});
+  $("fPrice").oninput=()=>{const d=$("fPrice").value.replace(/\D/g,"");$("fPrice").value=d?(+d).toLocaleString("vi-VN"):""};
+  $("fGo").onclick=()=>{
+    const no=+$("fRoom").value, price=+$("fPrice").value.replace(/\D/g,"");
+    if(!no){toast("Đêm này đã hết phòng trống.");return}
+    if(!price){toast("Nhập giá một đêm trước khi nhận phòng.");$("fPrice").focus();return}
+    const now=new Date(), hh=String(now.getHours()).padStart(2,"0")+":"+String(now.getMinutes()).padStart(2,"0");
+    const name=$("fName").value.trim()||("Khách phòng "+no);
+    (extra[LAST]=extra[LAST]||[]).push({n:name,s:fSegV,g:0,r:1,rn:[no],rev:price,p:[[1,price]],pay:$("fPay").value,ci:[LAST,hh],co:[LAST+1,"12:00"],du:false});
+    $("fName").value="";
+    sel=DATA.length-1; tab="arr"; renderAll(no);
+    $("tower").scrollIntoView({behavior:"smooth",block:"start"});
+    toast(`Đã nhận phòng ${no} lúc ${hh}. Màn hình của cô cập nhật ngay, không cần chờ báo cáo cuối tháng.`);
+  };
+  $("milanoBtn").onclick=()=>toast("Milano Legend sẽ nằm cùng màn hình này khi triển khai. Cô chuyển qua lại giữa hai khách sạn bằng một chạm.");
+  const go=t=>{tab=t;renderGuests()};
+  $("gTabs").querySelectorAll("button").forEach(b=>b.onclick=()=>go(b.dataset.t));
+  $("quick").querySelectorAll("button").forEach(b=>b.onclick=()=>{go(b.dataset.t);$("guests").scrollIntoView({behavior:"smooth",block:"start"})});
+}
+let tt;function toast(t){const el=$("toast");el.textContent=t;el.classList.add("show");clearTimeout(tt);tt=setTimeout(()=>el.classList.remove("show"),3200)}
+function renderAll(fresh){renderDays();renderTower(fresh);renderMonth();renderChart();fillRooms()}
+
+/* boot */
+function start(p){
+  DATA=p.days; INS=p.ins||{}; sel=DATA.length-1; LAST=DATA[sel].d;
+  buildWheel(); wire(); renderAll(); spin3d();
+}
+function buildWheel(){
+  let sp="",cb="";
+  for(let i=0;i<16;i++){const a=i*Math.PI/8,x=100+88*Math.cos(a),y=100+88*Math.sin(a);
+    sp+=`<line x1="100" y1="100" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}"/>`;
+    cb+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4.2" fill="${i%2?"#F4B942":"#F9D98A"}"/>`;}
+  $("spokes").innerHTML=sp; $("cabins").innerHTML=cb;
+}
+/* 3D building: slow sway, drag to turn */
+function spin3d(){
+  const bld=$("bld"), sc=$("scene"); let ry=20, drag=null, last=0, idle=0;
+  const calm=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const set=()=>{bld.style.transform=`rotateY(${ry.toFixed(2)}deg)`};
+  set();
+  sc.addEventListener("pointerdown",e=>{drag={x:e.clientX,ry};});
+  window.addEventListener("pointermove",e=>{ if(!drag) return; const dx=e.clientX-drag.x; if(Math.abs(dx)<6) return;
+    ry=Math.max(4,Math.min(44,drag.ry+dx*0.18)); idle=performance.now()+2500; set(); });
+  window.addEventListener("pointerup",()=>{drag=null}); window.addEventListener("pointercancel",()=>{drag=null});
+  if(calm) return;
+  const base=()=>20+6*Math.sin(performance.now()/2600);
+  (function tick(t){ if(!drag && t>idle){ ry+= (base()-ry)*0.04; set(); } requestAnimationFrame(tick); })(0);
+}
+function tween(el,to){
+  const from=parseInt(el.textContent)||0; if(from===to||window.matchMedia("(prefers-reduced-motion: reduce)").matches){el.textContent=to;return}
+  const t0=performance.now(), dur=520;
+  (function f(t){const k=Math.min(1,(t-t0)/dur), e=1-Math.pow(1-k,3); el.textContent=Math.round(from+(to-from)*e); if(k<1) requestAnimationFrame(f)})(t0);
+}
+start(PAYLOAD);
+</script>
+</body>
+</html>
